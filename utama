@@ -1,0 +1,583 @@
+Here is an interactive furniture catalogue designed for your Android phone, with a two-column layout, image pop-up, and sorting controls.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Pocket Catalogue | Furniture</title>
+  <!-- Google Fonts & simple icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #F6F4F0;
+      font-family: 'Inter', sans-serif;
+      color: #1F1B16;
+      padding: 1rem 1rem 2rem 1rem;
+    }
+
+    /* main catalogue container — exactly 2 columns */
+    .catalogue-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* each row = one furniture item (2 columns: image | details) */
+    .furniture-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 0.9rem;
+      background: #FFFFFF;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+      border: 1px solid #EFEAE3;
+    }
+
+    /* left column: image container */
+    .image-col {
+      position: relative;
+      background: #F1EDE6;
+      cursor: pointer;
+      overflow: hidden;
+      min-height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-col img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+    .image-col:active img {
+      transform: scale(0.98);
+    }
+
+    /* right column: description + buy now */
+    .details-col {
+      padding: 0.8rem 0.8rem 0.8rem 0rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .item-type {
+      display: inline-block;
+      background: #EFE5DB;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #7A5C3C;
+      margin-bottom: 0.5rem;
+      width: fit-content;
+    }
+    .item-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #2B241C;
+      margin-bottom: 0.25rem;
+      line-height: 1.25;
+    }
+    .item-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #B47C48;
+      margin: 0.3rem 0 0.5rem 0;
+    }
+    .item-desc {
+      font-size: 0.7rem;
+      color: #6E6256;
+      line-height: 1.3;
+      margin-bottom: 0.65rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .buy-btn {
+      background: #1F1B16;
+      border: none;
+      border-radius: 40px;
+      padding: 0.55rem 0;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.25rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .buy-btn i {
+      font-size: 0.75rem;
+    }
+    .buy-btn:active {
+      background: #3d3228;
+      transform: scale(0.97);
+    }
+
+    /* sorting bar - double row for mobile */
+    .sort-section {
+      background: white;
+      border-radius: 28px;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      border: 1px solid #EDE5DC;
+    }
+    .sort-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #A48F7A;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+    }
+    .filter-group:last-child {
+      margin-bottom: 0;
+    }
+    .sort-chip {
+      background: #F3EFEA;
+      border: none;
+      padding: 0.45rem 1.1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #4D3E2E;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .sort-chip i {
+      margin-right: 5px;
+      font-size: 0.7rem;
+    }
+    .sort-chip.active {
+      background: #1F1B16;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .divider {
+      height: 1px;
+      background: #EDE3DB;
+      margin: 0.6rem 0;
+    }
+
+    /* popup modal for larger image */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      background: transparent;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content img {
+      width: auto;
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 28px;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,255,240,0.2);
+    }
+    .close-modal {
+      position: absolute;
+      top: -36px;
+      right: 0px;
+      color: white;
+      font-size: 32px;
+      font-weight: 300;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
+      width: 40px;
+      height: 40px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .close-modal:hover { background: #b47c48; }
+
+    /* header */
+    .catalogue-header {
+      margin-bottom: 0.8rem;
+      text-align: left;
+    }
+    .catalogue-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #211A14;
+    }
+    .catalogue-header p {
+      font-size: 0.75rem;
+      color: #8F7E6B;
+    }
+
+    /* 5 rows are ensured by exactly 5 items, but we will show only first 5 after sort/filter? wait, spec says 2 columns, 5 rows (10 items). Actually we need 5 rows total, each row has 2 columns = 5 furniture items. In our grid each .furniture-row = 1 row, we display 5 items = 5 rows exactly. */
+    .info-note {
+      font-size: 0.65rem;
+      text-align: center;
+      color: #b2a089;
+      margin-top: 0.5rem;
+    }
+    button {
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="catalogue-header">
+  <h2>📋 pocket<br>catalogue</h2>
+  <p>2 columns · 5 rows · tap image to zoom</p>
+</div>
+
+<!-- sorting panel: price + category filter -->
+<div class="sort-section">
+  <div class="sort-label"><i class="fas fa-chart-line"></i> price</div>
+  <div class="filter-group" id="priceSortGroup">
+    <button class="sort-chip" data-price="low-high"><i class="fas fa-arrow-up-wide-short"></i> Lowest</button>
+    <button class="sort-chip" data-price="high-low"><i class="fas fa-arrow-down-wide-short"></i> Highest</button>
+  </div>
+  <div class="divider"></div>
+  <div class="sort-label"><i class="fas fa-tag"></i> category</div>
+  <div class="filter-group" id="categoryGroup">
+    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> All</button>
+    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> Table</button>
+    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> Chair</button>
+    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> Cabinet</button>
+    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> Outdoor</button>
+    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> Lighting</button>
+  </div>
+</div>
+
+<!-- catalogue grid: exactly 5 rows (each row = 1 item, 2 columns layout) -->
+<div class="catalogue-grid" id="catalogueGrid"></div>
+<div class="info-note"><i class="fas fa-mobile-alt"></i> 5 items | tap image to enlarge • buy button redirects</div>
+
+<!-- Modal for popup image -->
+<div id="imageModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <img id="modalImage" src="" alt="enlarged view">
+  </div>
+</div>
+
+<script>
+  // ---------- FURNITURE DATABASE (exactly 5 items, each with category & price) ----------
+  // 5 rows, each with unique id, type, desc, price and high-res image url
+  const furnitureData = [
+    {
+      id: 1,
+      name: "Aether Oak Table",
+      category: "table",
+      typeLabel: "Table",
+      price: 499,
+      description: "Solid oak wood, Scandinavian design, seats 6 comfortably.",
+      image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600",
+      buyLink: "https://www.ikea.com/",    // example external link
+    },
+    {
+      id: 2,
+      name: "Lumina Armchair",
+      category: "chair",
+      typeLabel: "Chair",
+      price: 289,
+      description: "Velvet upholstery, walnut legs, perfect reading nook.",
+      image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600",
+      buyLink: "https://www.wayfair.com/",
+    },
+    {
+      id: 3,
+      name: "Haven Sideboard",
+      category: "cabinet",
+      typeLabel: "Cabinet",
+      price: 799,
+      description: "Mid-century modern, cane front doors & spacious storage.",
+      image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600",
+      buyLink: "https://www.westelm.com/",
+    },
+    {
+      id: 4,
+      name: "Solara Patio Set",
+      category: "outdoor",
+      typeLabel: "Outdoor",
+      price: 649,
+      description: "Weather-resistant rattan, tempered glass table + 2 chairs.",
+      image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600",
+      buyLink: "https://www.lowes.com/",
+    },
+    {
+      id: 5,
+      name: "Gleam Arc Lamp",
+      category: "lighting",
+      typeLabel: "Lighting",
+      price: 199,
+      description: "Minimalist brass arc floor lamp, linen shade, dimmable.",
+      image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600",
+      buyLink: "https://www.crateandbarrel.com/",
+    }
+  ];
+
+  // helper: format price
+  function formatPrice(price) {
+    return '$' + price.toFixed(2);
+  }
+
+  // current sorting state
+  let currentPriceSort = "low-high";   // "low-high" or "high-low"
+  let currentCategory = "all";
+
+  // get sorted & filtered items (always returns 5 items, but if category filter reduces, we return filtered list)
+  function getFilteredAndSorted() {
+    let filtered = [...furnitureData];
+    
+    // apply category filter
+    if (currentCategory !== "all") {
+      filtered = filtered.filter(item => item.category === currentCategory);
+    }
+    
+    // apply price sort
+    if (currentPriceSort === "low-high") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+    
+    return filtered;
+  }
+
+  // render the catalogue grid (exactly 2 columns per row, each row = one item)
+  // the spec: 2 column layout: left image, right description+buy button. 5 rows total.
+  // We will always show the first 5 items? but maximum we have only 5 base items, so it shows 5 rows.
+  // If category filter reduces results below 5 we show all, but UI will adapt (still rows)
+  function renderCatalogue() {
+    const gridContainer = document.getElementById("catalogueGrid");
+    if (!gridContainer) return;
+    
+    const itemsToShow = getFilteredAndSorted();
+    
+    if (itemsToShow.length === 0) {
+      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ No furniture match this category. Try another filter.</div>`;
+      return;
+    }
+    
+    // generate each row using 2 column structure
+    let rowsHtml = "";
+    for (let item of itemsToShow) {
+      // ensure category styling and icon for type
+      let categoryIcon = "";
+      if (item.category === "table") categoryIcon = "fa-utensils";
+      else if (item.category === "chair") categoryIcon = "fa-couch";
+      else if (item.category === "cabinet") categoryIcon = "fa-archive";
+      else if (item.category === "outdoor") categoryIcon = "fa-tree";
+      else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
+      else categoryIcon = "fa-tag";
+      
+      rowsHtml += `
+        <div class="furniture-row" data-id="${item.id}">
+          <!-- left column: image with click popup -->
+          <div class="image-col" data-img="${item.image}" data-name="${item.name}">
+            <img src="${item.image}" alt="${item.name}" loading="lazy">
+          </div>
+          <!-- right column: description + buy now button -->
+          <div class="details-col">
+            <div>
+              <span class="item-type"><i class="fas ${categoryIcon}"></i> ${item.typeLabel}</span>
+              <div class="item-name">${item.name}</div>
+              <div class="item-price">${formatPrice(item.price)}</div>
+              <div class="item-desc">${item.description}</div>
+            </div>
+            <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${item.name}">
+              <i class="fas fa-bag-shopping"></i> Buy Now
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    
+    gridContainer.innerHTML = rowsHtml;
+    
+    // attach event listeners for image popup (each .image-col)
+    document.querySelectorAll('.image-col').forEach(col => {
+      col.addEventListener('click', (e) => {
+        // stop bubbling to avoid conflicts
+        e.stopPropagation();
+        const imgElement = col.querySelector('img');
+        if (imgElement && imgElement.src) {
+          openModal(imgElement.src);
+        } else {
+          const dataImg = col.getAttribute('data-img');
+          if (dataImg) openModal(dataImg);
+        }
+      });
+    });
+    
+    // attach event listeners for BUY NOW buttons (redirect to external link)
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const link = btn.getAttribute('data-buy-link');
+        const itemName = btn.getAttribute('data-item-name') || 'item';
+        if (link && link !== "#") {
+          // open in new tab (or external app / browser)
+          window.open(link, '_blank');
+        } else {
+          // fallback demo: alert but real use redirect
+          alert(`✨ "${itemName}" – you would be redirected to official store. (demo link placeholder)`);
+        }
+      });
+    });
+  }
+  
+  // Modal logic: popup larger image
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  const closeModalBtn = document.querySelector(".close-modal");
+  
+  function openModal(imgSrc) {
+    if (modal && modalImg) {
+      modalImg.src = imgSrc;
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+  }
+  
+  function closeModal() {
+    if (modal) {
+      modal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+  }
+  
+  // setup sort buttons + active states
+  function initSorting() {
+    // price sort buttons
+    const priceLowBtn = document.querySelector('[data-price="low-high"]');
+    const priceHighBtn = document.querySelector('[data-price="high-low"]');
+    
+    const updatePriceActive = () => {
+      if (currentPriceSort === "low-high") {
+        priceLowBtn.classList.add("active");
+        priceHighBtn.classList.remove("active");
+      } else {
+        priceHighBtn.classList.add("active");
+        priceLowBtn.classList.remove("active");
+      }
+    };
+    
+    if (priceLowBtn) {
+      priceLowBtn.addEventListener("click", () => {
+        currentPriceSort = "low-high";
+        updatePriceActive();
+        renderCatalogue();
+      });
+    }
+    if (priceHighBtn) {
+      priceHighBtn.addEventListener("click", () => {
+        currentPriceSort = "high-low";
+        updatePriceActive();
+        renderCatalogue();
+      });
+    }
+    
+    // category filter buttons
+    const catBtns = document.querySelectorAll('[data-cat]');
+    const setActiveCategory = (selectedCatValue) => {
+      catBtns.forEach(btn => {
+        if (btn.getAttribute('data-cat') === selectedCatValue) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+    };
+    
+    catBtns.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const catValue = btn.getAttribute("data-cat");
+        if (catValue) {
+          currentCategory = catValue;
+          setActiveCategory(catValue);
+          renderCatalogue();
+        }
+      });
+    });
+    
+    // set default active category = all, price low-high
+    setActiveCategory("all");
+    updatePriceActive();
+  }
+  
+  // ensure modal close events
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", closeModal);
+  }
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // additional touch/click on escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && modal.style.display === "flex") {
+      closeModal();
+    }
+  });
+  
+  // initial render
+  function init() {
+    initSorting();
+    renderCatalogue();
+  }
+  
+  init();
+</script>
+</body>
+</html>
+```
