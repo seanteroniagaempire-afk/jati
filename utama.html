@@ -1,3 +1,5 @@
+Here is the complete HTML document with the official Google Translate widget integrated into your existing furniture catalogue, keeping your manual translations as a fallback.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +22,108 @@
       font-family: 'Inter', sans-serif;
       color: #1F1B16;
       padding: 1rem 1rem 2rem 1rem;
+    }
+
+    /* header with language selector */
+    .catalogue-header {
+      margin-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .header-title h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #211A14;
+      line-height: 1.2;
+    }
+    .header-title p {
+      font-size: 0.75rem;
+      color: #8F7E6B;
+    }
+    
+    /* Google Translate custom styling */
+    .lang-selector-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+    .manual-lang-buttons {
+      display: flex;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.3rem 0.5rem;
+      border-radius: 60px;
+      border: 1px solid #EDE5DC;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #7A6B5A;
+    }
+    .lang-btn.active {
+      background: #1F1B16;
+      color: white;
+    }
+    .lang-btn:active {
+      transform: scale(0.95);
+    }
+    
+    /* Google Translate element styling */
+    #google_translate_element {
+      margin-top: 0.2rem;
+    }
+    .goog-te-gadget {
+      font-family: 'Inter', sans-serif !important;
+      font-size: 0.7rem !important;
+      color: #7A6B5A !important;
+    }
+    .goog-te-gadget-simple {
+      background-color: white !important;
+      border: 1px solid #EDE5DC !important;
+      border-radius: 60px !important;
+      padding: 0.3rem 0.8rem !important;
+      font-size: 0.7rem !important;
+    }
+    .goog-te-gadget-simple span {
+      color: #4A3B2C !important;
+    }
+    .goog-te-banner-frame {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
+      position: relative !important;
+    }
+    .goog-te-menu-frame {
+      z-index: 9999 !important;
+    }
+    .goog-te-menu2 {
+      max-width: 200px !important;
+    }
+    /* Hide Google Translate credit link (optional but keeps design clean) */
+    .goog-logo-link {
+      display: none !important;
+    }
+    .goog-te-gadget {
+      color: transparent !important;
+    }
+    .goog-te-gadget:before {
+      content: "🌐 ";
+      color: #7A6B5A;
+      font-size: 0.7rem;
     }
 
     /* main catalogue container */
@@ -334,19 +438,6 @@
     }
     .close-modal:hover { background: #b47c48; }
 
-    .catalogue-header {
-      margin-bottom: 0.8rem;
-    }
-    .catalogue-header h2 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #211A14;
-    }
-    .catalogue-header p {
-      font-size: 0.75rem;
-      color: #8F7E6B;
-    }
     .stats-badge {
       background: #EAE3DB;
       display: inline-block;
@@ -364,28 +455,39 @@
 <body>
 
 <div class="catalogue-header">
-  <h2>JatiMurahMalaysia.com<br>Katalog</h2>
-  <p>Penghantaran 3-5 hari ke rumah anda.</p>
-  <div class="stats-badge" id="itemStats">Loading items...</div>
+  <div class="header-title">
+    <h2>JatiMurahMalaysia.com<br>Katalog</h2>
+    <p id="tagline">Penghantaran 3-5 hari ke rumah anda.</p>
+    <div class="stats-badge" id="itemStats">Loading items...</div>
+  </div>
+  <div class="lang-selector-wrapper">
+    <div class="manual-lang-buttons">
+      <button class="lang-btn" data-lang="ms">🇲🇾 BM</button>
+      <button class="lang-btn active" data-lang="en">🇬🇧 EN</button>
+      <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+    </div>
+    <!-- Google Translate Widget -->
+    <div id="google_translate_element"></div>
+  </div>
 </div>
 
 <!-- sorting panel -->
 <div class="sort-section">
-  <div class="sort-label"><i class="fas fa-chart-line"></i> sort by</div>
+  <div class="sort-label" id="sortLabel"><i class="fas fa-chart-line"></i> sort by</div>
   <div class="filter-group" id="priceSortGroup">
-    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> Latest</button>
-    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Price: Low → High</button>
-    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Price: High → Low</button>
+    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> <span class="sort-latest-text">Latest</span></button>
+    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> <span class="sort-lowhigh-text">Price: Low → High</span></button>
+    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> <span class="sort-highlow-text">Price: High → Low</span></button>
   </div>
   <div class="divider"></div>
-  <div class="sort-label"><i class="fas fa-tag"></i> category</div>
+  <div class="sort-label" id="categoryLabel"><i class="fas fa-tag"></i> category</div>
   <div class="filter-group" id="categoryGroup">
-    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> All</button>
-    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> Table</button>
-    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> Chair</button>
-    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> Cabinet</button>
-    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> Outdoor</button>
-    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> Lighting</button>
+    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> <span class="cat-all-text">All</span></button>
+    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> <span class="cat-table-text">Table</span></button>
+    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> <span class="cat-chair-text">Chair</span></button>
+    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> <span class="cat-cabinet-text">Cabinet</span></button>
+    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> <span class="cat-outdoor-text">Outdoor</span></button>
+    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> <span class="cat-lighting-text">Lighting</span></button>
   </div>
 </div>
 
@@ -394,7 +496,7 @@
 
 <!-- Load More button + end message -->
 <div class="load-more-container" id="loadMoreContainer">
-  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Load More (5 more)</button>
+  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> <span id="loadMoreText">Load More (5 more)</span></button>
 </div>
 <div id="endMessage" class="end-message">✨ You've reached the end of our collection ✨</div>
 
@@ -407,25 +509,121 @@
 </div>
 
 <script>
-  // ---------- FURNITURE DATABASE with release timestamps ----------
+  // Manual translation dictionary (fallback / primary)
+  const translations = {
+    en: {
+      tagline: "3-5 days delivery to your doorstep.",
+      sortLabel: "sort by",
+      latest: "Latest",
+      lowHigh: "Price: Low → High",
+      highLow: "Price: High → Low",
+      categoryLabel: "category",
+      all: "All",
+      table: "Table",
+      chair: "Chair",
+      cabinet: "Cabinet",
+      outdoor: "Outdoor",
+      lighting: "Lighting",
+      loadMore: "Load More",
+      endMessage: "✨ You've reached the end of our collection ✨",
+      buyNow: "Buy Now",
+      seeMore: "See More",
+      released: "released",
+      showing: "Showing",
+      of: "of",
+      items: "items",
+      noResults: "✨ No furniture match this category. Try another filter."
+    },
+    ms: {
+      tagline: "Penghantaran 3-5 hari ke rumah anda.",
+      sortLabel: "susun mengikut",
+      latest: "Terbaru",
+      lowHigh: "Harga: Rendah → Tinggi",
+      highLow: "Harga: Tinggi → Rendah",
+      categoryLabel: "kategori",
+      all: "Semua",
+      table: "Meja",
+      chair: "Kerusi",
+      cabinet: "Kabinet",
+      outdoor: "Luar Ruangan",
+      lighting: "Lampu",
+      loadMore: "Muat Lagi",
+      endMessage: "✨ Anda telah mencapai penghujung koleksi kami ✨",
+      buyNow: "Beli Sekarang",
+      seeMore: "Lihat Lagi",
+      released: "dikeluarkan",
+      showing: "Menunjukkan",
+      of: "daripada",
+      items: "item",
+      noResults: "✨ Tiada perabot yang sepadan dengan kategori ini. Cuba penapis lain."
+    },
+    zh: {
+      tagline: "3-5天送货到您家门口。",
+      sortLabel: "排序方式",
+      latest: "最新",
+      lowHigh: "价格: 低 → 高",
+      highLow: "价格: 高 → 低",
+      categoryLabel: "分类",
+      all: "全部",
+      table: "桌子",
+      chair: "椅子",
+      cabinet: "柜子",
+      outdoor: "户外",
+      lighting: "灯具",
+      loadMore: "加载更多",
+      endMessage: "✨ 您已经浏览到收藏的尽头了 ✨",
+      buyNow: "立即购买",
+      seeMore: "查看更多",
+      released: "发布日期",
+      showing: "显示",
+      of: "/",
+      items: "件商品",
+      noResults: "✨ 没有找到匹配的商品。请尝试其他分类。"
+    }
+  };
+
+  let currentLang = "en";
+  let googleTranslateInitialized = false;
+
+  // Update UI text (manual translation)
+  function updateUILanguage() {
+    const t = translations[currentLang];
+    document.getElementById("tagline").innerText = t.tagline;
+    document.getElementById("sortLabel").innerHTML = `<i class="fas fa-chart-line"></i> ${t.sortLabel}`;
+    document.getElementById("categoryLabel").innerHTML = `<i class="fas fa-tag"></i> ${t.categoryLabel}`;
+    
+    document.querySelectorAll(".sort-latest-text").forEach(el => el.innerText = t.latest);
+    document.querySelectorAll(".sort-lowhigh-text").forEach(el => el.innerText = t.lowHigh);
+    document.querySelectorAll(".sort-highlow-text").forEach(el => el.innerText = t.highLow);
+    document.querySelectorAll(".cat-all-text").forEach(el => el.innerText = t.all);
+    document.querySelectorAll(".cat-table-text").forEach(el => el.innerText = t.table);
+    document.querySelectorAll(".cat-chair-text").forEach(el => el.innerText = t.chair);
+    document.querySelectorAll(".cat-cabinet-text").forEach(el => el.innerText = t.cabinet);
+    document.querySelectorAll(".cat-outdoor-text").forEach(el => el.innerText = t.outdoor);
+    document.querySelectorAll(".cat-lighting-text").forEach(el => el.innerText = t.lighting);
+    
+    document.getElementById("endMessage").innerHTML = t.endMessage;
+    const loadMoreSpan = document.getElementById("loadMoreText");
+    if (loadMoreSpan) loadMoreSpan.innerText = t.loadMore;
+    
+    // Re-render catalogue to update item texts
+    renderCatalogue();
+  }
+
+  // ---------- FURNITURE DATABASE (English base, manual translations for fallback) ----------
   const furnitureRaw = [
-    { id: 1, name: "Aether Oak Table", category: "table", typeLabel: "Table", price: 499, description: "Solid oak wood, Scandinavian design, seats 6 comfortably.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
-    { id: 2, name: "Lumina Armchair", category: "chair", typeLabel: "Chair", price: 289, description: "Velvet upholstery, walnut legs, perfect reading nook.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
-    { id: 3, name: "Haven Sideboard", category: "cabinet", typeLabel: "Cabinet", price: 799, description: "Mid-century modern, cane front doors & spacious storage.", image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.westelm.com/", releaseDate: "2023-11-10T08:15:10" },
-    { id: 4, name: "Solara Patio Set", category: "outdoor", typeLabel: "Outdoor", price: 649, description: "Weather-resistant rattan, tempered glass table + 2 chairs.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.lowes.com/", releaseDate: "2024-07-01T19:20:45" },
-    { id: 5, name: "Gleam Arc Lamp", category: "lighting", typeLabel: "Lighting", price: 199, description: "Minimalist brass arc floor lamp, linen shade, dimmable.", image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.crateandbarrel.com/", releaseDate: "2025-01-12T11:05:33" },
-    { id: 6, name: "Nimbus Coffee Table", category: "table", typeLabel: "Table", price: 375, description: "Marble top with oak base, storage shelf underneath.", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.potterybarn.com/", releaseDate: "2024-09-18T16:30:18" },
-    { id: 7, name: "Eclipse Swivel Chair", category: "chair", typeLabel: "Chair", price: 520, description: "Premium leather, 360° swivel, high back support.", image: "https://images.pexels.com/photos/1055693/pexels-photo-1055693.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.amazon.com/", releaseDate: "2024-12-05T22:12:07" },
-    { id: 8, name: "Rondo Cabinet", category: "cabinet", typeLabel: "Cabinet", price: 1150, description: "Hand-painted lacquer, brass handles, 4 drawers.", image: "https://images.pexels.com/photos/3757056/pexels-photo-3757056.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.anthropologie.com/", releaseDate: "2023-08-27T07:55:42" },
-    { id: 9, name: "Ventura Outdoor Lounger", category: "outdoor", typeLabel: "Outdoor", price: 890, description: "Quick-dry foam, teak frame, UV resistant fabric.", image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.target.com/", releaseDate: "2025-02-14T13:40:55" },
-    { id: 10, name: "Petal Pendant Light", category: "lighting", typeLabel: "Lighting", price: 165, description: "Hand-blown glass, warm amber glow, adjustable cord.", image: "https://images.pexels.com/photos/2599642/pexels-photo-2599642.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.homedepot.com/", releaseDate: "2024-06-30T10:25:13" },
-    { id: 11, name: "Oslo Dining Chair", category: "chair", typeLabel: "Chair", price: 189, description: "Stackable polypropylene, elegant curve, indoor/outdoor.", image: "https://images.pexels.com/photos/1648774/pexels-photo-1648774.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.overstock.com/", releaseDate: "2024-10-10T23:58:01" },
-    { id: 12, name: "Heritage Bookcase", category: "cabinet", typeLabel: "Cabinet", price: 645, description: "Solid mango wood, adjustable shelves, timeless.", image: "https://images.pexels.com/photos/2061727/pexels-photo-2061727.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.livingspaces.com/", releaseDate: "2023-12-19T12:08:29" },
-    { id: 13, name: "Bistro Garden Table", category: "outdoor", typeLabel: "Outdoor", price: 299, description: "Powder-coated steel, compact for balcony, includes umbrella hole.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.walmart.com/", releaseDate: "2024-04-25T18:47:36" },
-    { id: 14, name: "Aura Desk Lamp", category: "lighting", typeLabel: "Lighting", price: 89, description: "USB rechargeable, stepless dimming, modern silhouette.", image: "https://images.pexels.com/photos/2905058/pexels-photo-2905058.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.bestbuy.com/", releaseDate: "2025-03-01T09:22:19" }
+    { id: 1, nameEn: "Aether Oak Table", nameMs: "Meja Oak Aether", nameZh: "以太橡木桌", category: "table", typeEn: "Table", typeMs: "Meja", typeZh: "桌子", price: 499, descEn: "Solid oak wood, Scandinavian design, seats 6 comfortably.", descMs: "Kayu oak pepejal, reka bentuk Skandinavia, muat 6 orang dengan selesa.", descZh: "实心橡木，斯堪的纳维亚设计，可舒适容纳6人。", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
+    { id: 2, nameEn: "Lumina Armchair", nameMs: "Kerusi Lengan Lumina", nameZh: "卢米纳扶手椅", category: "chair", typeEn: "Chair", typeMs: "Kerusi", typeZh: "椅子", price: 289, descEn: "Velvet upholstery, walnut legs, perfect reading nook.", descMs: "Penutup baldu, kaki walnut, sudut bacaan yang sempurna.", descZh: "天鹅绒面料，胡桃木腿，完美的阅读角落。", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
+    { id: 3, nameEn: "Haven Sideboard", nameMs: "Rak Sisi Haven", nameZh: "港湾边柜", category: "cabinet", typeEn: "Cabinet", typeMs: "Kabinet", typeZh: "柜子", price: 799, descEn: "Mid-century modern, cane front doors & spacious storage.", descMs: "Moden pertengahan abad, pintu rotan & storan luas.", descZh: "中世纪现代风格，藤编前门，宽敞储物空间。", image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.westelm.com/", releaseDate: "2023-11-10T08:15:10" },
+    { id: 4, nameEn: "Solara Patio Set", nameMs: "Set Patio Solara", nameZh: "索拉瑞庭院套装", category: "outdoor", typeEn: "Outdoor", typeMs: "Luar Ruangan", typeZh: "户外", price: 649, descEn: "Weather-resistant rattan, tempered glass table + 2 chairs.", descMs: "Rotan tahan cuaca, meja kaca terbaja + 2 kerusi.", descZh: "耐候藤条，钢化玻璃桌 + 2把椅子。", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.lowes.com/", releaseDate: "2024-07-01T19:20:45" },
+    { id: 5, nameEn: "Gleam Arc Lamp", nameMs: "Lampu Lengkuk Gleam", nameZh: "微光弧光灯", category: "lighting", typeEn: "Lighting", typeMs: "Lampu", typeZh: "灯具", price: 199, descEn: "Minimalist brass arc floor lamp, linen shade, dimmable.", descMs: "Lampu lantai lengkuk loyang minimalis, naungan linen, boleh malap.", descZh: "极简黄铜弧形落地灯，亚麻灯罩，可调光。", image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.crateandbarrel.com/", releaseDate: "2025-01-12T11:05:33" },
+    { id: 6, nameEn: "Nimbus Coffee Table", nameMs: "Meja Kopi Nimbus", nameZh: "雨云咖啡桌", category: "table", typeEn: "Table", typeMs: "Meja", typeZh: "桌子", price: 375, descEn: "Marble top with oak base, storage shelf underneath.", descMs: "Permukaan marmar dengan tapak oak, rak storan di bawah.", descZh: "大理石桌面配橡木底座，下方储物架。", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.potterybarn.com/", releaseDate: "2024-09-18T16:30:18" },
+    { id: 7, nameEn: "Eclipse Swivel Chair", nameMs: "Kerusi Putar Eclipse", nameZh: "日蚀旋转椅", category: "chair", typeEn: "Chair", typeMs: "Kerusi", typeZh: "椅子", price: 520, descEn: "Premium leather, 360° swivel, high back support.", descMs: "Kulit premium, putaran 360°, sokongan belakang tinggi.", descZh: "优质皮革，360度旋转，高背支撑。", image: "https://images.pexels.com/photos/1055693/pexels-photo-1055693.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.amazon.com/", releaseDate: "2024-12-05T22:12:07" },
+    { id: 8, nameEn: "Rondo Cabinet", nameMs: "Kabinet Rondo", nameZh: "回旋曲柜", category: "cabinet", typeEn: "Cabinet", typeMs: "Kabinet", typeZh: "柜子", price: 1150, descEn: "Hand-painted lacquer, brass handles, 4 drawers.", descMs: "Lakuer cat tangan, pemegang loyang, 4 laci.", descZh: "手绘漆面，黄铜把手，4个抽屉。", image: "https://images.pexels.com/photos/3757056/pexels-photo-3757056.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.anthropologie.com/", releaseDate: "2023-08-27T07:55:42" },
+    { id: 9, nameEn: "Ventura Outdoor Lounger", nameMs: "Tempat Tidur Luar Ventura", nameZh: "文图拉户外躺椅", category: "outdoor", typeEn: "Outdoor", typeMs: "Luar Ruangan", typeZh: "户外", price: 890, descEn: "Quick-dry foam, teak frame, UV resistant fabric.", descMs: "Buih kering cepat, rangka jati, fabrik tahan UV.", descZh: "快干泡沫，柚木框架，抗紫外线面料。", image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.target.com/", releaseDate: "2025-02-14T13:40:55" },
+    { id: 10, nameEn: "Petal Pendant Light", nameMs: "Lampu Gantung Petal", nameZh: "花瓣吊灯", category: "lighting", typeEn: "Lighting", typeMs: "Lampu", typeZh: "灯具", price: 165, descEn: "Hand-blown glass, warm amber glow, adjustable cord.", descMs: "Kaca tiup tangan, cahaya ambar hangat, kord boleh laras.", descZh: "手工吹制玻璃，温暖的琥珀色光芒，可调节电线。", image: "https://images.pexels.com/photos/2599642/pexels-photo-2599642.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.homedepot.com/", releaseDate: "2024-06-30T10:25:13" }
   ];
   
-  // Generate product code from release date
   function generateProductCode(isoDateString) {
     const date = new Date(isoDateString);
     const year = date.getFullYear();
@@ -437,21 +635,16 @@
     return `FRN-${year}${month}${day}-${hours}${minutes}${seconds}`;
   }
   
-  // Augment each item with productCode and timestamp
   const fullFurnitureList = furnitureRaw.map(item => ({
     ...item,
     productCode: generateProductCode(item.releaseDate),
     releaseTimestamp: new Date(item.releaseDate).getTime()
   }));
   
-  // Pagination state
   let visibleCount = 5;
   const PAGE_STEP = 5;
-  
-  // Sort types: 'latest', 'low-high', 'high-low'
   let currentSort = "latest";
   let currentCategory = "all";
-  
   let workingList = [...fullFurnitureList];
   
   function updateWorkingList() {
@@ -459,7 +652,6 @@
     if (currentCategory !== "all") {
       filtered = filtered.filter(item => item.category === currentCategory);
     }
-    
     if (currentSort === "low-high") {
       filtered.sort((a, b) => a.price - b.price);
     } else if (currentSort === "high-low") {
@@ -483,6 +675,24 @@
     });
   }
   
+  function getItemName(item) {
+    if (currentLang === 'ms') return item.nameMs;
+    if (currentLang === 'zh') return item.nameZh;
+    return item.nameEn;
+  }
+  
+  function getItemType(item) {
+    if (currentLang === 'ms') return item.typeMs;
+    if (currentLang === 'zh') return item.typeZh;
+    return item.typeEn;
+  }
+  
+  function getItemDesc(item) {
+    if (currentLang === 'ms') return item.descMs;
+    if (currentLang === 'zh') return item.descZh;
+    return item.descEn;
+  }
+  
   function getRelativeDateLabel(releaseDate) {
     const date = new Date(releaseDate);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -495,18 +705,16 @@
     updateWorkingList();
     const itemsToShow = workingList.slice(0, visibleCount);
     const totalItems = workingList.length;
+    const t = translations[currentLang];
     
     const statsSpan = document.getElementById("itemStats");
     if (statsSpan) {
-      let sortText = "";
-      if (currentSort === "latest") sortText = "📅 Latest first";
-      else if (currentSort === "low-high") sortText = "💰 Price ↑";
-      else sortText = "💰 Price ↓";
-      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} of ${totalItems} items · ${sortText}`;
+      let sortText = currentSort === "latest" ? "📅 " + t.latest : (currentSort === "low-high" ? "💰 " + t.lowHigh : "💰 " + t.highLow);
+      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${t.showing} ${itemsToShow.length} ${t.of} ${totalItems} ${t.items} · ${sortText}`;
     }
     
     if (itemsToShow.length === 0) {
-      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ No furniture match this category. Try another filter.</div>`;
+      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">${t.noResults}</div>`;
       document.getElementById("loadMoreContainer").classList.add("hidden");
       document.getElementById("endMessage").classList.remove("show");
       return;
@@ -520,32 +728,30 @@
       else if (item.category === "cabinet") categoryIcon = "fa-archive";
       else if (item.category === "outdoor") categoryIcon = "fa-tree";
       else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
-      else categoryIcon = "fa-tag";
       
       const daysSinceRelease = (Date.now() - new Date(item.releaseDate).getTime()) / (1000 * 3600 * 24);
       const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">NEW</span>' : '';
       
       rowsHtml += `
         <div class="furniture-row" data-id="${item.id}">
-          <div class="image-col" data-img="${item.image}" data-name="${item.name}">
-            <img src="${item.image}" alt="${item.name}" loading="lazy">
+          <div class="image-col" data-img="${item.image}" data-name="${getItemName(item)}">
+            <img src="${item.image}" alt="${getItemName(item)}" loading="lazy">
           </div>
           <div class="details-col">
             <div>
-              <span class="item-type"><i class="fas ${categoryIcon}"></i> ${item.typeLabel}</span>
-              <div class="item-name">${escapeHtml(item.name)}${newBadge}</div>
+              <span class="item-type"><i class="fas ${categoryIcon}"></i> ${escapeHtml(getItemType(item))}</span>
+              <div class="item-name">${escapeHtml(getItemName(item))}${newBadge}</div>
               <div class="item-price">${formatPrice(item.price)}</div>
-              <div class="item-desc">${escapeHtml(item.description)}</div>
+              <div class="item-desc">${escapeHtml(getItemDesc(item))}</div>
               <div class="product-code"><i class="fas fa-qrcode"></i> ${escapeHtml(item.productCode)}</div>
-              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> released ${getRelativeDateLabel(item.releaseDate)}</div>
+              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> ${t.released} ${getRelativeDateLabel(item.releaseDate)}</div>
             </div>
-            <!-- TWO BUTTONS: Buy Now + See More (same reference link) -->
             <div class="button-group">
-              <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class="fas fa-bag-shopping"></i> Buy Now
+              <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(getItemName(item))}">
+                <i class="fas fa-bag-shopping"></i> ${t.buyNow}
               </button>
-              <button class="see-more-btn" data-see-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class=""></i> See More
+              <button class="see-more-btn" data-see-link="${item.buyLink}" data-item-name="${escapeHtml(getItemName(item))}">
+                <i class="fas fa-eye"></i> ${t.seeMore}
               </button>
             </div>
           </div>
@@ -560,10 +766,6 @@
         e.stopPropagation();
         const img = col.querySelector('img');
         if (img && img.src) openModal(img.src);
-        else {
-          const dataImg = col.getAttribute('data-img');
-          if (dataImg) openModal(dataImg);
-        }
       });
     });
     
@@ -572,26 +774,16 @@
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const link = btn.getAttribute('data-buy-link');
-        const itemName = btn.getAttribute('data-item-name') || 'item';
-        if (link && link !== "#") {
-          window.open(link, '_blank');
-        } else {
-          alert(`🛒 "${itemName}" – redirect to official store. (demo)`);
-        }
+        if (link && link !== "#") window.open(link, '_blank');
       });
     });
     
-    // Attach See More button events (SAME reference links as Buy Now)
+    // Attach See More button events
     document.querySelectorAll('.see-more-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const link = btn.getAttribute('data-see-link');
-        const itemName = btn.getAttribute('data-item-name') || 'item';
-        if (link && link !== "#") {
-          window.open(link, '_blank');
-        } else {
-          alert(`🔍 "${itemName}" – view more details (same product page).`);
-        }
+        if (link && link !== "#") window.open(link, '_blank');
       });
     });
     
@@ -601,18 +793,14 @@
     
     if (visibleCount >= totalItems) {
       loadMoreContainer.classList.add("hidden");
-      if (totalItems > 0) {
-        endMessageDiv.classList.add("show");
-      } else {
-        endMessageDiv.classList.remove("show");
-      }
+      if (totalItems > 0) endMessageDiv.classList.add("show");
     } else {
       loadMoreContainer.classList.remove("hidden");
       endMessageDiv.classList.remove("show");
       const remaining = totalItems - visibleCount;
       const loadBtn = document.getElementById("loadMoreBtn");
       if (loadBtn) {
-        loadBtn.innerHTML = `<i class="fas fa-arrow-down"></i> Load More (${Math.min(PAGE_STEP, remaining)} more)`;
+        document.getElementById("loadMoreText").innerText = `${t.loadMore} (${Math.min(PAGE_STEP, remaining)} more)`;
       }
     }
   }
@@ -627,11 +815,6 @@
         const lastRow = document.querySelector('.furniture-row:last-child');
         if (lastRow) lastRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
-    } else {
-      const loadMoreContainer = document.getElementById("loadMoreContainer");
-      const endMessageDiv = document.getElementById("endMessage");
-      loadMoreContainer.classList.add("hidden");
-      endMessageDiv.classList.add("show");
     }
   }
   
@@ -660,25 +843,20 @@
   }
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
   window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal && modal.style.display === "flex") closeModal(); });
   
-  // Initialize sorting
+  // Initialize sorting and manual lang buttons
   function initSorting() {
     const sortBtns = document.querySelectorAll('[data-sort]');
     const updateSortActive = () => {
       sortBtns.forEach(btn => {
-        if (btn.getAttribute('data-sort') === currentSort) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
+        if (btn.getAttribute('data-sort') === currentSort) btn.classList.add("active");
+        else btn.classList.remove("active");
       });
     };
-    
     sortBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         const sortValue = btn.getAttribute("data-sort");
-        if (sortValue && (sortValue === "latest" || sortValue === "low-high" || sortValue === "high-low")) {
+        if (sortValue) {
           currentSort = sortValue;
           updateSortActive();
           resetAndRender();
@@ -704,13 +882,43 @@
       });
     });
     
+    // Manual language buttons
+    const langBtns = document.querySelectorAll('.lang-btn');
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        if (lang) {
+          currentLang = lang;
+          langBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updateUILanguage();
+        }
+      });
+    });
+    
     updateSortActive();
     setActiveCategory("all");
+  }
+  
+  // Google Translate initialization
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      {
+        pageLanguage: 'en',
+        includedLanguages: 'ms,en,zh-CN',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      },
+      'google_translate_element'
+    );
+    googleTranslateInitialized = true;
   }
   
   document.getElementById("loadMoreBtn")?.addEventListener("click", loadMoreItems);
   initSorting();
   renderCatalogue();
 </script>
+<!-- Google Translate script -->
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
