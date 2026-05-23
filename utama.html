@@ -1,11 +1,9 @@
-Here is the updated catalogue with only the Google Translate widget, set to Bahasa Malaysia as the default language, with the widget placed neatly on the top right.
-```html
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>JatiMurahMalaysia.com | Katalog Perabot</title>
+  <title>JatiMurahMalaysia.com | Katalog terkini</title>
   <!-- Google Fonts & icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -22,91 +20,6 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
       font-family: 'Inter', sans-serif;
       color: #1F1B16;
       padding: 1rem 1rem 2rem 1rem;
-    }
-
-    /* header with language selector - Google Translate only */
-    .catalogue-header {
-      margin-bottom: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-    }
-    .header-title h2 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #211A14;
-      line-height: 1.2;
-    }
-    .header-title p {
-      font-size: 0.75rem;
-      color: #8F7E6B;
-    }
-    
-    /* Google Translate Widget Styling - Neat & Compact */
-    .google-translate-container {
-      background: white;
-      border-radius: 60px;
-      border: 1px solid #EDE5DC;
-      padding: 0.2rem 0.2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      display: inline-flex;
-      align-items: center;
-    }
-    #google_translate_element {
-      min-width: 140px;
-    }
-    .goog-te-gadget {
-      font-family: 'Inter', sans-serif !important;
-      font-size: 0.7rem !important;
-      color: #4A3B2C !important;
-    }
-    .goog-te-gadget-simple {
-      background-color: transparent !important;
-      border: none !important;
-      border-radius: 60px !important;
-      padding: 0.4rem 0.8rem !important;
-      font-size: 0.75rem !important;
-      font-weight: 500 !important;
-    }
-    .goog-te-gadget-simple span {
-      color: #4A3B2C !important;
-      vertical-align: middle !important;
-    }
-    .goog-te-gadget-simple .goog-te-menu-value span:first-child {
-      font-weight: 500 !important;
-    }
-    .goog-te-gadget-simple .goog-te-menu-value:before {
-      content: "🌐 ";
-      font-size: 0.8rem;
-    }
-    /* Hide Google branding text but keep functional */
-    .goog-logo-link {
-      display: none !important;
-    }
-    .goog-te-gadget {
-      color: transparent !important;
-    }
-    .goog-te-gadget span:not(.goog-te-menu-value) {
-      display: none !important;
-    }
-    /* Remove banner */
-    .goog-te-banner-frame {
-      display: none !important;
-    }
-    body {
-      top: 0px !important;
-      position: relative !important;
-    }
-    .goog-te-menu-frame {
-      z-index: 9999 !important;
-    }
-    .goog-te-menu2 {
-      max-width: 220px !important;
-      border-radius: 16px !important;
-      font-family: 'Inter', sans-serif !important;
     }
 
     /* main catalogue container */
@@ -421,6 +334,19 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
     }
     .close-modal:hover { background: #b47c48; }
 
+    .catalogue-header {
+      margin-bottom: 0.8rem;
+    }
+    .catalogue-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #211A14;
+    }
+    .catalogue-header p {
+      font-size: 0.75rem;
+      color: #8F7E6B;
+    }
     .stats-badge {
       background: #EAE3DB;
       display: inline-block;
@@ -438,33 +364,28 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
 <body>
 
 <div class="catalogue-header">
-  <div class="header-title">
-    <h2>JatiMurahMalaysia.com<br>Katalog Perabot</h2>
-    <p>Penghantaran 3-5 hari ke rumah anda.</p>
-    <div class="stats-badge" id="itemStats">Memuatkan item...</div>
-  </div>
-  <div class="google-translate-container">
-    <div id="google_translate_element"></div>
-  </div>
+  <h2>JatiMurahMalaysia.com<br>Katalog</h2>
+  <p>Penghantaran 3-5 hari ke rumah anda.</p>
+  <div class="stats-badge" id="itemStats">Loading items...</div>
 </div>
 
 <!-- sorting panel -->
 <div class="sort-section">
-  <div class="sort-label"><i class="fas fa-chart-line"></i> susun mengikut</div>
+  <div class="sort-label"><i class="fas fa-chart-line"></i> sort by</div>
   <div class="filter-group" id="priceSortGroup">
-    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> Terbaru</button>
-    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Harga: Rendah → Tinggi</button>
-    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Harga: Tinggi → Rendah</button>
+    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> Latest</button>
+    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Price: Low → High</button>
+    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Price: High → Low</button>
   </div>
   <div class="divider"></div>
-  <div class="sort-label"><i class="fas fa-tag"></i> kategori</div>
+  <div class="sort-label"><i class="fas fa-tag"></i> category</div>
   <div class="filter-group" id="categoryGroup">
-    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> Semua</button>
-    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> Meja</button>
-    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> Kerusi</button>
-    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> Kabinet</button>
-    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> Luar Ruangan</button>
-    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> Lampu</button>
+    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> All</button>
+    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> Table</button>
+    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> Chair</button>
+    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> Cabinet</button>
+    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> Outdoor</button>
+    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> Lighting</button>
   </div>
 </div>
 
@@ -473,35 +394,35 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
 
 <!-- Load More button + end message -->
 <div class="load-more-container" id="loadMoreContainer">
-  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Muat Lagi (5 lagi)</button>
+  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Load More (5 more)</button>
 </div>
-<div id="endMessage" class="end-message">✨ Anda telah mencapai penghujung koleksi kami ✨</div>
+<div id="endMessage" class="end-message">✨ You've reached the end of our collection ✨</div>
 
 <!-- Modal for popup image -->
 <div id="imageModal" class="modal">
   <div class="modal-content">
     <span class="close-modal">&times;</span>
-    <img id="modalImage" src="" alt="pandangan besar">
+    <img id="modalImage" src="" alt="enlarged view">
   </div>
 </div>
 
 <script>
-  // ---------- FURNITURE DATABASE (Bahasa Malaysia as primary language) ----------
-  const furnitureData = [
-    { id: 1, name: "Meja Oak Aether", category: "table", typeLabel: "Meja", price: 499, description: "Kayu oak pepejal, reka bentuk Skandinavia, muat 6 orang dengan selesa.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
-    { id: 2, name: "Kerusi Lengan Lumina", category: "chair", typeLabel: "Kerusi", price: 289, description: "Penutup baldu, kaki walnut, sudut bacaan yang sempurna.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
-    { id: 3, name: "Kabinet Haven", category: "cabinet", typeLabel: "Kabinet", price: 799, description: "Moden pertengahan abad, pintu rotan & storan luas.", image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.westelm.com/", releaseDate: "2023-11-10T08:15:10" },
-    { id: 4, name: "Set Patio Solara", category: "outdoor", typeLabel: "Luar Ruangan", price: 649, description: "Rotan tahan cuaca, meja kaca terbaja + 2 kerusi.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.lowes.com/", releaseDate: "2024-07-01T19:20:45" },
-    { id: 5, name: "Lampu Lengkuk Gleam", category: "lighting", typeLabel: "Lampu", price: 199, description: "Lampu lantai lengkuk loyang minimalis, naungan linen, boleh malap.", image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.crateandbarrel.com/", releaseDate: "2025-01-12T11:05:33" },
-    { id: 6, name: "Meja Kopi Nimbus", category: "table", typeLabel: "Meja", price: 375, description: "Permukaan marmar dengan tapak oak, rak storan di bawah.", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.potterybarn.com/", releaseDate: "2024-09-18T16:30:18" },
-    { id: 7, name: "Kerusi Putar Eclipse", category: "chair", typeLabel: "Kerusi", price: 520, description: "Kulit premium, putaran 360°, sokongan belakang tinggi.", image: "https://images.pexels.com/photos/1055693/pexels-photo-1055693.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.amazon.com/", releaseDate: "2024-12-05T22:12:07" },
-    { id: 8, name: "Kabinet Rondo", category: "cabinet", typeLabel: "Kabinet", price: 1150, description: "Lakuer cat tangan, pemegang loyang, 4 laci.", image: "https://images.pexels.com/photos/3757056/pexels-photo-3757056.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.anthropologie.com/", releaseDate: "2023-08-27T07:55:42" },
-    { id: 9, name: "Tempat Tidur Luar Ventura", category: "outdoor", typeLabel: "Luar Ruangan", price: 890, description: "Buih kering cepat, rangka jati, fabrik tahan UV.", image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.target.com/", releaseDate: "2025-02-14T13:40:55" },
-    { id: 10, name: "Lampu Gantung Petal", category: "lighting", typeLabel: "Lampu", price: 165, description: "Kaca tiup tangan, cahaya ambar hangat, kord boleh laras.", image: "https://images.pexels.com/photos/2599642/pexels-photo-2599642.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.homedepot.com/", releaseDate: "2024-06-30T10:25:13" },
-    { id: 11, name: "Kerusi Makan Oslo", category: "chair", typeLabel: "Kerusi", price: 189, description: "Polipropilena boleh disusun, lengkung elegan, dalam/luar.", image: "https://images.pexels.com/photos/1648774/pexels-photo-1648774.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.overstock.com/", releaseDate: "2024-10-10T23:58:01" },
-    { id: 12, name: "Rak Buku Warisan", category: "cabinet", typeLabel: "Kabinet", price: 645, description: "Kayu mangga pepejal, rak boleh laras, abadi.", image: "https://images.pexels.com/photos/2061727/pexels-photo-2061727.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.livingspaces.com/", releaseDate: "2023-12-19T12:08:29" },
-    { id: 13, name: "Meja Taman Bistro", category: "outdoor", typeLabel: "Luar Ruangan", price: 299, description: "Keluli bersalut serbuk, padat untuk balkoni, termasuk lubang payung.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.walmart.com/", releaseDate: "2024-04-25T18:47:36" },
-    { id: 14, name: "Lampu Meja Aura", category: "lighting", typeLabel: "Lampu", price: 89, description: "Boleh dicas semula USB, malap tanpa langkah, siluet moden.", image: "https://images.pexels.com/photos/2905058/pexels-photo-2905058.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.bestbuy.com/", releaseDate: "2025-03-01T09:22:19" }
+  // ---------- FURNITURE DATABASE with release timestamps ----------
+  const furnitureRaw = [
+    { id: 1, name: "Aether Oak Table", category: "table", typeLabel: "Table", price: 499, description: "Solid oak wood, Scandinavian design, seats 6 comfortably.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
+    { id: 2, name: "Lumina Armchair", category: "chair", typeLabel: "Chair", price: 289, description: "Velvet upholstery, walnut legs, perfect reading nook.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
+    { id: 3, name: "Haven Sideboard", category: "cabinet", typeLabel: "Cabinet", price: 799, description: "Mid-century modern, cane front doors & spacious storage.", image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.westelm.com/", releaseDate: "2023-11-10T08:15:10" },
+    { id: 4, name: "Solara Patio Set", category: "outdoor", typeLabel: "Outdoor", price: 649, description: "Weather-resistant rattan, tempered glass table + 2 chairs.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.lowes.com/", releaseDate: "2024-07-01T19:20:45" },
+    { id: 5, name: "Gleam Arc Lamp", category: "lighting", typeLabel: "Lighting", price: 199, description: "Minimalist brass arc floor lamp, linen shade, dimmable.", image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.crateandbarrel.com/", releaseDate: "2025-01-12T11:05:33" },
+    { id: 6, name: "Nimbus Coffee Table", category: "table", typeLabel: "Table", price: 375, description: "Marble top with oak base, storage shelf underneath.", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.potterybarn.com/", releaseDate: "2024-09-18T16:30:18" },
+    { id: 7, name: "Eclipse Swivel Chair", category: "chair", typeLabel: "Chair", price: 520, description: "Premium leather, 360° swivel, high back support.", image: "https://images.pexels.com/photos/1055693/pexels-photo-1055693.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.amazon.com/", releaseDate: "2024-12-05T22:12:07" },
+    { id: 8, name: "Rondo Cabinet", category: "cabinet", typeLabel: "Cabinet", price: 1150, description: "Hand-painted lacquer, brass handles, 4 drawers.", image: "https://images.pexels.com/photos/3757056/pexels-photo-3757056.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.anthropologie.com/", releaseDate: "2023-08-27T07:55:42" },
+    { id: 9, name: "Ventura Outdoor Lounger", category: "outdoor", typeLabel: "Outdoor", price: 890, description: "Quick-dry foam, teak frame, UV resistant fabric.", image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.target.com/", releaseDate: "2025-02-14T13:40:55" },
+    { id: 10, name: "Petal Pendant Light", category: "lighting", typeLabel: "Lighting", price: 165, description: "Hand-blown glass, warm amber glow, adjustable cord.", image: "https://images.pexels.com/photos/2599642/pexels-photo-2599642.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.homedepot.com/", releaseDate: "2024-06-30T10:25:13" },
+    { id: 11, name: "Oslo Dining Chair", category: "chair", typeLabel: "Chair", price: 189, description: "Stackable polypropylene, elegant curve, indoor/outdoor.", image: "https://images.pexels.com/photos/1648774/pexels-photo-1648774.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.overstock.com/", releaseDate: "2024-10-10T23:58:01" },
+    { id: 12, name: "Heritage Bookcase", category: "cabinet", typeLabel: "Cabinet", price: 645, description: "Solid mango wood, adjustable shelves, timeless.", image: "https://images.pexels.com/photos/2061727/pexels-photo-2061727.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.livingspaces.com/", releaseDate: "2023-12-19T12:08:29" },
+    { id: 13, name: "Bistro Garden Table", category: "outdoor", typeLabel: "Outdoor", price: 299, description: "Powder-coated steel, compact for balcony, includes umbrella hole.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.walmart.com/", releaseDate: "2024-04-25T18:47:36" },
+    { id: 14, name: "Aura Desk Lamp", category: "lighting", typeLabel: "Lighting", price: 89, description: "USB rechargeable, stepless dimming, modern silhouette.", image: "https://images.pexels.com/photos/2905058/pexels-photo-2905058.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.bestbuy.com/", releaseDate: "2025-03-01T09:22:19" }
   ];
   
   // Generate product code from release date
@@ -517,7 +438,7 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
   }
   
   // Augment each item with productCode and timestamp
-  const fullFurnitureList = furnitureData.map(item => ({
+  const fullFurnitureList = furnitureRaw.map(item => ({
     ...item,
     productCode: generateProductCode(item.releaseDate),
     releaseTimestamp: new Date(item.releaseDate).getTime()
@@ -550,7 +471,7 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
   }
   
   function formatPrice(price) {
-    return 'RM ' + price.toFixed(2);
+    return '$' + price.toFixed(2);
   }
   
   function escapeHtml(str) {
@@ -564,7 +485,7 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
   
   function getRelativeDateLabel(releaseDate) {
     const date = new Date(releaseDate);
-    return date.toLocaleDateString('ms-MY', { year: 'numeric', month: 'long', day: 'numeric' });
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
   
   function renderCatalogue() {
@@ -578,14 +499,14 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
     const statsSpan = document.getElementById("itemStats");
     if (statsSpan) {
       let sortText = "";
-      if (currentSort === "latest") sortText = "📅 Terbaru dahulu";
-      else if (currentSort === "low-high") sortText = "💰 Harga ↑";
-      else sortText = "💰 Harga ↓";
-      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} daripada ${totalItems} item · ${sortText}`;
+      if (currentSort === "latest") sortText = "📅 Latest first";
+      else if (currentSort === "low-high") sortText = "💰 Price ↑";
+      else sortText = "💰 Price ↓";
+      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} of ${totalItems} items · ${sortText}`;
     }
     
     if (itemsToShow.length === 0) {
-      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ Tiada perabot yang sepadan dengan kategori ini. Cuba penapis lain.</div>`;
+      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ No furniture match this category. Try another filter.</div>`;
       document.getElementById("loadMoreContainer").classList.add("hidden");
       document.getElementById("endMessage").classList.remove("show");
       return;
@@ -599,9 +520,10 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
       else if (item.category === "cabinet") categoryIcon = "fa-archive";
       else if (item.category === "outdoor") categoryIcon = "fa-tree";
       else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
+      else categoryIcon = "fa-tag";
       
       const daysSinceRelease = (Date.now() - new Date(item.releaseDate).getTime()) / (1000 * 3600 * 24);
-      const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">BARU</span>' : '';
+      const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">NEW</span>' : '';
       
       rowsHtml += `
         <div class="furniture-row" data-id="${item.id}">
@@ -615,14 +537,15 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
               <div class="item-price">${formatPrice(item.price)}</div>
               <div class="item-desc">${escapeHtml(item.description)}</div>
               <div class="product-code"><i class="fas fa-qrcode"></i> ${escapeHtml(item.productCode)}</div>
-              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> dikeluarkan ${getRelativeDateLabel(item.releaseDate)}</div>
+              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> released ${getRelativeDateLabel(item.releaseDate)}</div>
             </div>
+            <!-- TWO BUTTONS: Buy Now + See More (same reference link) -->
             <div class="button-group">
               <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class="fas fa-bag-shopping"></i> Beli Sekarang
+                <i class="fas fa-bag-shopping"></i> Buy Now
               </button>
               <button class="see-more-btn" data-see-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class="fas fa-eye"></i> Lihat Lagi
+                <i class=""></i> See More
               </button>
             </div>
           </div>
@@ -637,6 +560,10 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
         e.stopPropagation();
         const img = col.querySelector('img');
         if (img && img.src) openModal(img.src);
+        else {
+          const dataImg = col.getAttribute('data-img');
+          if (dataImg) openModal(dataImg);
+        }
       });
     });
     
@@ -645,16 +572,26 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const link = btn.getAttribute('data-buy-link');
-        if (link && link !== "#") window.open(link, '_blank');
+        const itemName = btn.getAttribute('data-item-name') || 'item';
+        if (link && link !== "#") {
+          window.open(link, '_blank');
+        } else {
+          alert(`🛒 "${itemName}" – redirect to official store. (demo)`);
+        }
       });
     });
     
-    // Attach See More button events
+    // Attach See More button events (SAME reference links as Buy Now)
     document.querySelectorAll('.see-more-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const link = btn.getAttribute('data-see-link');
-        if (link && link !== "#") window.open(link, '_blank');
+        const itemName = btn.getAttribute('data-item-name') || 'item';
+        if (link && link !== "#") {
+          window.open(link, '_blank');
+        } else {
+          alert(`🔍 "${itemName}" – view more details (same product page).`);
+        }
       });
     });
     
@@ -664,15 +601,18 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
     
     if (visibleCount >= totalItems) {
       loadMoreContainer.classList.add("hidden");
-      if (totalItems > 0) endMessageDiv.classList.add("show");
-      else endMessageDiv.classList.remove("show");
+      if (totalItems > 0) {
+        endMessageDiv.classList.add("show");
+      } else {
+        endMessageDiv.classList.remove("show");
+      }
     } else {
       loadMoreContainer.classList.remove("hidden");
       endMessageDiv.classList.remove("show");
       const remaining = totalItems - visibleCount;
       const loadBtn = document.getElementById("loadMoreBtn");
       if (loadBtn) {
-        loadBtn.innerHTML = `<i class="fas fa-arrow-down"></i> Muat Lagi (${Math.min(PAGE_STEP, remaining)} lagi)`;
+        loadBtn.innerHTML = `<i class="fas fa-arrow-down"></i> Load More (${Math.min(PAGE_STEP, remaining)} more)`;
       }
     }
   }
@@ -687,6 +627,11 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
         const lastRow = document.querySelector('.furniture-row:last-child');
         if (lastRow) lastRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
+    } else {
+      const loadMoreContainer = document.getElementById("loadMoreContainer");
+      const endMessageDiv = document.getElementById("endMessage");
+      loadMoreContainer.classList.add("hidden");
+      endMessageDiv.classList.add("show");
     }
   }
   
@@ -722,8 +667,11 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
     const sortBtns = document.querySelectorAll('[data-sort]');
     const updateSortActive = () => {
       sortBtns.forEach(btn => {
-        if (btn.getAttribute('data-sort') === currentSort) btn.classList.add("active");
-        else btn.classList.remove("active");
+        if (btn.getAttribute('data-sort') === currentSort) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
       });
     };
     
@@ -760,25 +708,9 @@ Here is the updated catalogue with only the Google Translate widget, set to Baha
     setActiveCategory("all");
   }
   
-  // Google Translate initialization
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement(
-      {
-        pageLanguage: 'ms',
-        includedLanguages: 'ms,en,zh-CN,ta',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-        autoDisplay: false
-      },
-      'google_translate_element'
-    );
-  }
-  
   document.getElementById("loadMoreBtn")?.addEventListener("click", loadMoreItems);
   initSorting();
   renderCatalogue();
 </script>
-<!-- Google Translate script -->
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
-```
