@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>JatiMurahMalaysia.com | Katalog terkini</title>
-  <!-- Google Fonts & icons -->
+  <title>Jati Murah Malaysia | Katalog Perabot Jati Asli</title>
+  <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -22,7 +22,6 @@
       padding: 1rem 1rem 2rem 1rem;
     }
 
-    /* main catalogue container */
     .catalogue-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -31,7 +30,6 @@
       margin-bottom: 1rem;
     }
 
-    /* each row = one furniture item (2 columns: image | details) */
     .furniture-row {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
@@ -46,17 +44,10 @@
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* left column: image container */
     .image-col {
       position: relative;
       background: #F1EDE6;
@@ -78,7 +69,6 @@
       transform: scale(0.97);
     }
 
-    /* right column: description + buy now + product code */
     .details-col {
       padding: 0.8rem 0.8rem 0.8rem 0rem;
       display: flex;
@@ -121,7 +111,6 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    /* product code styling */
     .product-code {
       font-size: 0.6rem;
       font-family: 'SF Mono', 'Fira Code', monospace;
@@ -141,7 +130,6 @@
       color: #B99773;
     }
     
-    /* BUTTON GROUP: Buy Now + See More side by side */
     .button-group {
       display: flex;
       gap: 0.6rem;
@@ -167,9 +155,7 @@
       background: #1F1B16;
       color: white;
     }
-    .buy-btn i {
-      font-size: 0.75rem;
-    }
+    .buy-btn i { font-size: 0.75rem; }
     .buy-btn:active {
       background: #3d3228;
       transform: scale(0.97);
@@ -188,7 +174,6 @@
       transform: scale(0.97);
     }
 
-    /* sorting bar */
     .sort-section {
       background: white;
       border-radius: 28px;
@@ -214,9 +199,7 @@
       gap: 0.6rem;
       margin-bottom: 0.9rem;
     }
-    .filter-group:last-child {
-      margin-bottom: 0;
-    }
+    .filter-group:last-child { margin-bottom: 0; }
     .sort-chip {
       background: #F3EFEA;
       border: none;
@@ -229,10 +212,7 @@
       transition: all 0.2s;
       font-family: 'Inter', sans-serif;
     }
-    .sort-chip i {
-      margin-right: 5px;
-      font-size: 0.7rem;
-    }
+    .sort-chip i { margin-right: 5px; font-size: 0.7rem; }
     .sort-chip.active {
       background: #1F1B16;
       color: white;
@@ -244,7 +224,6 @@
       margin: 0.6rem 0;
     }
 
-    /* Load More Button */
     .load-more-container {
       display: flex;
       justify-content: center;
@@ -270,9 +249,7 @@
       transform: scale(0.96);
       background: #F3EFEA;
     }
-    .load-more-btn.hidden {
-      display: none;
-    }
+    .load-more-btn.hidden { display: none; }
     
     .end-message {
       text-align: center;
@@ -283,11 +260,8 @@
       margin-top: 0.5rem;
       display: none;
     }
-    .end-message.show {
-      display: block;
-    }
+    .end-message.show { display: block; }
 
-    /* modal popup */
     .modal {
       display: none;
       position: fixed;
@@ -355,103 +329,101 @@
       font-size: 0.7rem;
       margin-top: 0.4rem;
     }
-    button {
-      background: none;
-      border: none;
+    button { background: none; border: none; }
+
+    @media (max-width: 540px) {
+      .furniture-row {
+        grid-template-columns: 1fr 1.1fr;
+        gap: 0.7rem;
+      }
+      .details-col { padding: 0.6rem 0.6rem 0.6rem 0; }
+      .buy-btn, .see-more-btn { font-size: 0.7rem; padding: 0.45rem 0; }
     }
   </style>
 </head>
 <body>
 
 <div class="catalogue-header">
-  <h2>JatiMurahMalaysia.com<br>Katalog</h2>
-  <p>Penghantaran 3-5 hari ke rumah anda.</p>
-  <div class="stats-badge" id="itemStats">Loading items...</div>
+  <h2>Jati Murah Malaysia<br>Katalog Perabot Asli</h2>
+  <p>Penghantaran 3-14 hari ke seluruh Malaysia • Shopee Platform • Pembayaran Online/COD/Ansuran • Paparan harga merangkumi kos anggaran penghantaran </p>
+  <div class="stats-badge" id="itemStats"><i class="fas fa-spinner fa-pulse"></i> Memuatkan...</div>
 </div>
 
 <!-- sorting panel -->
 <div class="sort-section">
-  <div class="sort-label"><i class="fas fa-chart-line"></i> sort by</div>
+  <div class="sort-label"><i class="fas fa-chart-line"></i> Susun mengikut</div>
   <div class="filter-group" id="priceSortGroup">
-    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> Latest</button>
-    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Price: Low → High</button>
-    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Price: High → Low</button>
+    <button class="sort-chip active" data-sort="latest"><i class="fas fa-clock"></i> Terkini</button>
+    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Harga: Rendah → Tinggi</button>
+    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Harga: Tinggi → Rendah</button>
   </div>
   <div class="divider"></div>
-  <div class="sort-label"><i class="fas fa-tag"></i> category</div>
+  <div class="sort-label"><i class="fas fa-tag"></i> Kategori</div>
   <div class="filter-group" id="categoryGroup">
-    <button class="sort-chip" data-cat="all"><i class="fas fa-border-all"></i> All</button>
-    <button class="sort-chip" data-cat="table"><i class="fas fa-utensils"></i> Table</button>
-    <button class="sort-chip" data-cat="chair"><i class="fas fa-couch"></i> Chair</button>
-    <button class="sort-chip" data-cat="cabinet"><i class="fas fa-archive"></i> Cabinet</button>
-    <button class="sort-chip" data-cat="outdoor"><i class="fas fa-tree"></i> Outdoor</button>
-    <button class="sort-chip" data-cat="lighting"><i class="fas fa-lightbulb"></i> Lighting</button>
+    <button class="sort-chip active" data-cat="all"><i class="fas fa-border-all"></i> Semua</button>
+    <button class="sort-chip" data-cat="kerusi"><i class="fas fa-couch"></i> Kerusi / Sofa</button>
+    <button class="sort-chip" data-cat="kabinet"><i class="fas fa-archive"></i> Kabinet / Almari</button>
+    <button class="sort-chip" data-cat="set meja kerusi"><i class="fas fa-utensils"></i> Set Meja Kerusi</button>
   </div>
 </div>
 
 <!-- catalogue grid -->
 <div class="catalogue-grid" id="catalogueGrid"></div>
 
-<!-- Load More button + end message -->
 <div class="load-more-container" id="loadMoreContainer">
-  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Load More (5 more)</button>
+  <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Muat Lagi (5 lagi)</button>
 </div>
-<div id="endMessage" class="end-message">✨ You've reached the end of our collection ✨</div>
+<div id="endMessage" class="end-message">✨ Anda sudah melihat kesemua koleksi perabot jati asli ✨</div>
 
 <!-- Modal for popup image -->
 <div id="imageModal" class="modal">
   <div class="modal-content">
     <span class="close-modal">&times;</span>
-    <img id="modalImage" src="" alt="enlarged view">
+    <img id="modalImage" src="" alt="paparan besar">
   </div>
 </div>
 
 <script>
-  // ---------- FURNITURE DATABASE with release timestamps ----------
+  // ---------- KOLEKSI PERABOT BERDASARKAN FAIL KATALOG (Sheet1) ----------
+  // Data terus dari jadual Katalog Information.xlsx
   const furnitureRaw = [
-    { id: 1, name: "Aether Oak Table", category: "table", typeLabel: "Table", price: 499, description: "Solid oak wood, Scandinavian design, seats 6 comfortably.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
-    { id: 2, name: "Lumina Armchair", category: "chair", typeLabel: "Chair", price: 289, description: "Velvet upholstery, walnut legs, perfect reading nook.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
-    { id: 3, name: "Haven Sideboard", category: "cabinet", typeLabel: "Cabinet", price: 799, description: "Mid-century modern, cane front doors & spacious storage.", image: "https://images.pexels.com/photos/3757055/pexels-photo-3757055.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.westelm.com/", releaseDate: "2023-11-10T08:15:10" },
-    { id: 4, name: "Solara Patio Set", category: "outdoor", typeLabel: "Outdoor", price: 649, description: "Weather-resistant rattan, tempered glass table + 2 chairs.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.lowes.com/", releaseDate: "2024-07-01T19:20:45" },
-    { id: 5, name: "Gleam Arc Lamp", category: "lighting", typeLabel: "Lighting", price: 199, description: "Minimalist brass arc floor lamp, linen shade, dimmable.", image: "https://images.pexels.com/photos/2905057/pexels-photo-2905057.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.crateandbarrel.com/", releaseDate: "2025-01-12T11:05:33" },
-    { id: 6, name: "Nimbus Coffee Table", category: "table", typeLabel: "Table", price: 375, description: "Marble top with oak base, storage shelf underneath.", image: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.potterybarn.com/", releaseDate: "2024-09-18T16:30:18" },
-    { id: 7, name: "Eclipse Swivel Chair", category: "chair", typeLabel: "Chair", price: 520, description: "Premium leather, 360° swivel, high back support.", image: "https://images.pexels.com/photos/1055693/pexels-photo-1055693.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.amazon.com/", releaseDate: "2024-12-05T22:12:07" },
-    { id: 8, name: "Rondo Cabinet", category: "cabinet", typeLabel: "Cabinet", price: 1150, description: "Hand-painted lacquer, brass handles, 4 drawers.", image: "https://images.pexels.com/photos/3757056/pexels-photo-3757056.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.anthropologie.com/", releaseDate: "2023-08-27T07:55:42" },
-    { id: 9, name: "Ventura Outdoor Lounger", category: "outdoor", typeLabel: "Outdoor", price: 890, description: "Quick-dry foam, teak frame, UV resistant fabric.", image: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.target.com/", releaseDate: "2025-02-14T13:40:55" },
-    { id: 10, name: "Petal Pendant Light", category: "lighting", typeLabel: "Lighting", price: 165, description: "Hand-blown glass, warm amber glow, adjustable cord.", image: "https://images.pexels.com/photos/2599642/pexels-photo-2599642.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.homedepot.com/", releaseDate: "2024-06-30T10:25:13" },
-    { id: 11, name: "Oslo Dining Chair", category: "chair", typeLabel: "Chair", price: 189, description: "Stackable polypropylene, elegant curve, indoor/outdoor.", image: "https://images.pexels.com/photos/1648774/pexels-photo-1648774.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.overstock.com/", releaseDate: "2024-10-10T23:58:01" },
-    { id: 12, name: "Heritage Bookcase", category: "cabinet", typeLabel: "Cabinet", price: 645, description: "Solid mango wood, adjustable shelves, timeless.", image: "https://images.pexels.com/photos/2061727/pexels-photo-2061727.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.livingspaces.com/", releaseDate: "2023-12-19T12:08:29" },
-    { id: 13, name: "Bistro Garden Table", category: "outdoor", typeLabel: "Outdoor", price: 299, description: "Powder-coated steel, compact for balcony, includes umbrella hole.", image: "https://images.pexels.com/photos/1392735/pexels-photo-1392735.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.walmart.com/", releaseDate: "2024-04-25T18:47:36" },
-    { id: 14, name: "Aura Desk Lamp", category: "lighting", typeLabel: "Lighting", price: 89, description: "USB rechargeable, stepless dimming, modern silhouette.", image: "https://images.pexels.com/photos/2905058/pexels-photo-2905058.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.bestbuy.com/", releaseDate: "2025-03-01T09:22:19" }
+    { id: 1, name: "Set Sofa Jati Indonesia", category: "kerusi", typeLabel: "Kerusi", price: 3030, description: "perabot jati new dan original dari jepara Indonesia.", image: "https://i.ibb.co/Q3phvtgy/id1.png", buyLink: "https://s.shopee.com.my/7pqIwjAuxN", releaseDate: "2023-05-23T08:15:10" },
+    { id: 2, name: "Meja Makan 6 Kerusi Jati", category: "set meja kerusi", typeLabel: "Set Meja Kerusi", price: 3020, description: "Set jati untuk Meja dan Kerusi 6 unit.", image: "https://i.ibb.co/k2Ghhk2y/id2.png", buyLink: "https://s.shopee.com.my/5q5Ea69sEl", releaseDate: "2023-05-23T08:15:11" },
+    { id: 3, name: "Almari Jati Unik Bentuk Botol", category: "kabinet", typeLabel: "Kabinet", price: 3020, description: "Rekaan unik berbentuk botol.", image: "https://i.ibb.co/C3n27K5j/id3.png", buyLink: "https://s.shopee.com.my/8piq9gRyl7", releaseDate: "2023-05-23T08:15:12" },
+    { id: 4, name: "Almari Kaca Jati", category: "kabinet", typeLabel: "Kabinet", price: 3020, description: "Almari hiasan bertingkat.", image: "https://i.ibb.co/Jj2Q7CWf/id4.png", buyLink: "https://s.shopee.com.my/9UyWxc7Wuo", releaseDate: "2023-05-23T08:15:13" },
+    { id: 5, name: "Meja Makan 6 Kerusi Jati", category: "set meja kerusi", typeLabel: "Set Meja Kerusi", price: 3020, description: "Set meja makan dan kerusi 6 unit.", image: "https://i.ibb.co/Fk3HWBMr/id5.png", buyLink: "https://s.shopee.com.my/3VhJomYK7E", releaseDate: "2023-05-23T08:15:14" },
+    { id: 6, name: "Meja Makan Kerusi dan Kusyen", category: "set meja kerusi", typeLabel: "Set Meja Kerusi", price: 3020, description: "Meja, kerusi panjang dan kusyen.", image: "https://i.ibb.co/rKWFRD6R/id6.png", buyLink: "https://s.shopee.com.my/6VKvPSliOP", releaseDate: "2023-05-23T08:15:15" },
+    { id: 7, name: "Kerusi Pengantin 2 unit", category: "kerusi", typeLabel: "Kerusi", price: 3020, description: "2 unit kerusi pengantin.", image: "https://i.ibb.co/rG5qwsFv/id7.png", buyLink: "https://s.shopee.com.my/4VZr2HTbiW", releaseDate: "2023-05-23T08:15:16" },
+    { id: 8, name: "Sofa Kusyen Kayu Jati", category: "kerusi", typeLabel: "Kerusi", price: 2840, description: "Kerusi jati sofa panjang beserta set kusyen.", image: "https://i.ibb.co/BdFPJhJ/id8.png", buyLink: "https://s.shopee.com.my/2BBwGK3g56", releaseDate: "2023-05-23T08:15:17" },
+    { id: 9, name: "Kabinet Laci Rotan Jati Asli", category: "kabinet", typeLabel: "Kabinet", price: 2985, description: "Kabinet beserta laci rotan. Diperbuat dari jati asli.", image: "https://i.ibb.co/8n9jRjnj/id9.png", buyLink: "https://s.shopee.com.my/902Gczef6O", releaseDate: "2023-05-23T08:15:18" },
+    { id: 10, name: "Set Meja Kerusi Gajah Rodah Jati", category: "set meja kerusi", typeLabel: "Set Meja Kerusi", price: 2909, description: "Meja jati & 4 kerusi jati.", image: "https://i.ibb.co/tPJfcXdZ/id10.png", buyLink: "https://s.shopee.com.my/7fWt3CYC7f", releaseDate: "2023-05-23T08:15:19" }
   ];
   
-  // Generate product code from release date
+  // Fungsi generate product code berdasarkan tarikh release (format: JTI-YYYYMMDD-HHMMSS)
   function generateProductCode(isoDateString) {
     const date = new Date(isoDateString);
+    if (isNaN(date.getTime())) return "JTI-00000000-000000";
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `FRN-${year}${month}${day}-${hours}${minutes}${seconds}`;
+    return `JTI-${year}${month}${day}-${hours}${minutes}${seconds}`;
   }
   
-  // Augment each item with productCode and timestamp
+  // augment setiap item dengan productCode dan releaseTimestamp
   const fullFurnitureList = furnitureRaw.map(item => ({
     ...item,
     productCode: generateProductCode(item.releaseDate),
     releaseTimestamp: new Date(item.releaseDate).getTime()
   }));
   
-  // Pagination state
+  // State untuk pagination, sorting, kategori
   let visibleCount = 5;
   const PAGE_STEP = 5;
-  
-  // Sort types: 'latest', 'low-high', 'high-low'
   let currentSort = "latest";
   let currentCategory = "all";
-  
   let workingList = [...fullFurnitureList];
   
   function updateWorkingList() {
@@ -459,7 +431,6 @@
     if (currentCategory !== "all") {
       filtered = filtered.filter(item => item.category === currentCategory);
     }
-    
     if (currentSort === "low-high") {
       filtered.sort((a, b) => a.price - b.price);
     } else if (currentSort === "high-low") {
@@ -471,10 +442,11 @@
   }
   
   function formatPrice(price) {
-    return '$' + price.toFixed(2);
+    return 'RM ' + price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   
   function escapeHtml(str) {
+    if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
@@ -485,9 +457,11 @@
   
   function getRelativeDateLabel(releaseDate) {
     const date = new Date(releaseDate);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    if (isNaN(date.getTime())) return "tarikh tidak tersedia";
+    return date.toLocaleDateString('ms-MY', { year: 'numeric', month: 'long', day: 'numeric' });
   }
   
+  // Render katalog utama
   function renderCatalogue() {
     const gridContainer = document.getElementById("catalogueGrid");
     if (!gridContainer) return;
@@ -499,14 +473,17 @@
     const statsSpan = document.getElementById("itemStats");
     if (statsSpan) {
       let sortText = "";
-      if (currentSort === "latest") sortText = "📅 Latest first";
-      else if (currentSort === "low-high") sortText = "💰 Price ↑";
-      else sortText = "💰 Price ↓";
-      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} of ${totalItems} items · ${sortText}`;
+      if (currentSort === "latest") sortText = "📅 Terkini dahulu";
+      else if (currentSort === "low-high") sortText = "💰 Harga ↑";
+      else sortText = "💰 Harga ↓";
+      const categoryName = currentCategory === "all" ? "Semua Kategori" : 
+                           (currentCategory === "kerusi" ? "Kerusi" :
+                            (currentCategory === "kabinet" ? "Kabinet/Almari" : "Set Meja Kerusi"));
+      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} daripada ${totalItems} item · ${sortText} · ${categoryName}`;
     }
     
     if (itemsToShow.length === 0) {
-      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ No furniture match this category. Try another filter.</div>`;
+      gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ Tiada perabot untuk kategori ini. Cuba pilih kategori lain ✨</div>`;
       document.getElementById("loadMoreContainer").classList.add("hidden");
       document.getElementById("endMessage").classList.remove("show");
       return;
@@ -514,21 +491,20 @@
     
     let rowsHtml = "";
     for (let item of itemsToShow) {
-      let categoryIcon = "";
-      if (item.category === "table") categoryIcon = "fa-utensils";
-      else if (item.category === "chair") categoryIcon = "fa-couch";
-      else if (item.category === "cabinet") categoryIcon = "fa-archive";
-      else if (item.category === "outdoor") categoryIcon = "fa-tree";
-      else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
-      else categoryIcon = "fa-tag";
+      // Pilih ikon berdasarkan kategori asal
+      let categoryIcon = "fa-tag";
+      if (item.category === "kerusi") categoryIcon = "fa-couch";
+      else if (item.category === "kabinet") categoryIcon = "fa-archive";
+      else if (item.category === "set meja kerusi") categoryIcon = "fa-utensils";
       
+      // Badge baru jika kurang 60 hari (berdasarkan tarikh release)
       const daysSinceRelease = (Date.now() - new Date(item.releaseDate).getTime()) / (1000 * 3600 * 24);
-      const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">NEW</span>' : '';
+      const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">BARU</span>' : '';
       
       rowsHtml += `
         <div class="furniture-row" data-id="${item.id}">
           <div class="image-col" data-img="${item.image}" data-name="${item.name}">
-            <img src="${item.image}" alt="${item.name}" loading="lazy">
+            <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://placehold.co/600x400?text=Jati+Murah'">
           </div>
           <div class="details-col">
             <div>
@@ -537,15 +513,14 @@
               <div class="item-price">${formatPrice(item.price)}</div>
               <div class="item-desc">${escapeHtml(item.description)}</div>
               <div class="product-code"><i class="fas fa-qrcode"></i> ${escapeHtml(item.productCode)}</div>
-              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> released ${getRelativeDateLabel(item.releaseDate)}</div>
+              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> dikeluarkan ${getRelativeDateLabel(item.releaseDate)}</div>
             </div>
-            <!-- TWO BUTTONS: Buy Now + See More (same reference link) -->
             <div class="button-group">
               <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class="fas fa-bag-shopping"></i> Buy Now
+                <i class="fas fa-bag-shopping"></i> Beli Sekarang
               </button>
               <button class="see-more-btn" data-see-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-                <i class=""></i> See More
+                <i class="fas fa-eye"></i> Lihat Lagi
               </button>
             </div>
           </div>
@@ -554,7 +529,7 @@
     }
     gridContainer.innerHTML = rowsHtml;
     
-    // Attach image popup
+    // Image popup modal untuk klik pada gambar
     document.querySelectorAll('.image-col').forEach(col => {
       col.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -567,7 +542,7 @@
       });
     });
     
-    // Attach Buy Now button events
+    // Butang "Beli Sekarang"
     document.querySelectorAll('.buy-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -576,12 +551,12 @@
         if (link && link !== "#") {
           window.open(link, '_blank');
         } else {
-          alert(`🛒 "${itemName}" – redirect to official store. (demo)`);
+          alert(`🛒 "${itemName}" – Sila layari laman Shopee rasmi kami.`);
         }
       });
     });
     
-    // Attach See More button events (SAME reference links as Buy Now)
+    // Butang "Lihat Lagi" (buka pautan yang sama untuk maklumat lanjut)
     document.querySelectorAll('.see-more-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -590,29 +565,25 @@
         if (link && link !== "#") {
           window.open(link, '_blank');
         } else {
-          alert(`🔍 "${itemName}" – view more details (same product page).`);
+          alert(`🔍 "${itemName}" – Maklumat lanjut di kedai online.`);
         }
       });
     });
     
-    // Handle load more button visibility
+    // Manage load more button & end message
     const loadMoreContainer = document.getElementById("loadMoreContainer");
     const endMessageDiv = document.getElementById("endMessage");
-    
     if (visibleCount >= totalItems) {
       loadMoreContainer.classList.add("hidden");
-      if (totalItems > 0) {
-        endMessageDiv.classList.add("show");
-      } else {
-        endMessageDiv.classList.remove("show");
-      }
+      if (totalItems > 0) endMessageDiv.classList.add("show");
+      else endMessageDiv.classList.remove("show");
     } else {
       loadMoreContainer.classList.remove("hidden");
       endMessageDiv.classList.remove("show");
       const remaining = totalItems - visibleCount;
       const loadBtn = document.getElementById("loadMoreBtn");
       if (loadBtn) {
-        loadBtn.innerHTML = `<i class="fas fa-arrow-down"></i> Load More (${Math.min(PAGE_STEP, remaining)} more)`;
+        loadBtn.innerHTML = `<i class="fas fa-arrow-down"></i> Muat Lagi (${Math.min(PAGE_STEP, remaining)} lagi)`;
       }
     }
   }
@@ -628,10 +599,8 @@
         if (lastRow) lastRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
     } else {
-      const loadMoreContainer = document.getElementById("loadMoreContainer");
-      const endMessageDiv = document.getElementById("endMessage");
-      loadMoreContainer.classList.add("hidden");
-      endMessageDiv.classList.add("show");
+      document.getElementById("loadMoreContainer").classList.add("hidden");
+      document.getElementById("endMessage").classList.add("show");
     }
   }
   
@@ -640,7 +609,7 @@
     renderCatalogue();
   }
   
-  // Modal logic
+  // Modal image functions
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImage");
   const closeModalBtn = document.querySelector(".close-modal");
@@ -662,23 +631,19 @@
   window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal && modal.style.display === "flex") closeModal(); });
   
-  // Initialize sorting
+  // Initialize sorting & category filters
   function initSorting() {
     const sortBtns = document.querySelectorAll('[data-sort]');
     const updateSortActive = () => {
       sortBtns.forEach(btn => {
-        if (btn.getAttribute('data-sort') === currentSort) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
+        if (btn.getAttribute('data-sort') === currentSort) btn.classList.add("active");
+        else btn.classList.remove("active");
       });
     };
-    
     sortBtns.forEach(btn => {
       btn.addEventListener("click", () => {
         const sortValue = btn.getAttribute("data-sort");
-        if (sortValue && (sortValue === "latest" || sortValue === "low-high" || sortValue === "high-low")) {
+        if (sortValue && ["latest","low-high","high-low"].includes(sortValue)) {
           currentSort = sortValue;
           updateSortActive();
           resetAndRender();
@@ -703,7 +668,6 @@
         }
       });
     });
-    
     updateSortActive();
     setActiveCategory("all");
   }
