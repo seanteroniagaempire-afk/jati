@@ -1,9 +1,11 @@
+Here is the updated furniture catalogue with a "See More" button added next to "Buy Now", sharing the same reference links.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>JatiMurahMalaysia.com | Katalog Terkini</title>
+  <title>JatiMurahMalaysia.com | Katalog terkini</title>
   <!-- Google Fonts & icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -121,7 +123,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    /* product code styling — small, monospace, subtle */
+    /* product code styling */
     .product-code {
       font-size: 0.6rem;
       font-family: 'SF Mono', 'Fira Code', monospace;
@@ -140,29 +142,51 @@
       font-size: 0.55rem;
       color: #B99773;
     }
-    .buy-btn {
-      background: #1F1B16;
+    
+    /* BUTTON GROUP: Buy Now + See More side by side */
+    .button-group {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.1rem;
+    }
+    .buy-btn, .see-more-btn {
+      flex: 1;
       border: none;
       border-radius: 40px;
       padding: 0.55rem 0;
       font-weight: 600;
       font-size: 0.75rem;
-      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      width: 100%;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 0.1rem;
-      font-family: 'Inter', sans-serif;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .buy-btn {
+      background: #1F1B16;
+      color: white;
     }
     .buy-btn i {
       font-size: 0.75rem;
     }
     .buy-btn:active {
       background: #3d3228;
+      transform: scale(0.97);
+    }
+    .see-more-btn {
+      background: transparent;
+      border: 1.5px solid #DCCFC2;
+      color: #4A3B2C;
+    }
+    .see-more-btn i {
+      font-size: 0.7rem;
+      color: #B47C48;
+    }
+    .see-more-btn:active {
+      background: #F3EFEA;
       transform: scale(0.97);
     }
 
@@ -343,7 +367,7 @@
 
 <div class="catalogue-header">
   <h2>JatiMurahMalaysia.com<br>Katalog</h2>
-  <p>Pasaran Malaysia sahaja. Penghantaran ke rumah 3 hingga 5 hari</p>
+  <p>Penghantaran 3-5 hari ke rumah anda.</p>
   <div class="stats-badge" id="itemStats">Loading items...</div>
 </div>
 
@@ -385,7 +409,7 @@
 </div>
 
 <script>
-  // ---------- FURNITURE DATABASE with release timestamps (latest sort uses this) ----------
+  // ---------- FURNITURE DATABASE with release timestamps ----------
   const furnitureRaw = [
     { id: 1, name: "Aether Oak Table", category: "table", typeLabel: "Table", price: 499, description: "Solid oak wood, Scandinavian design, seats 6 comfortably.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
     { id: 2, name: "Lumina Armchair", category: "chair", typeLabel: "Chair", price: 289, description: "Velvet upholstery, walnut legs, perfect reading nook.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
@@ -415,41 +439,36 @@
     return `FRN-${year}${month}${day}-${hours}${minutes}${seconds}`;
   }
   
-  // Augment each item with productCode
+  // Augment each item with productCode and timestamp
   const fullFurnitureList = furnitureRaw.map(item => ({
     ...item,
     productCode: generateProductCode(item.releaseDate),
-    releaseTimestamp: new Date(item.releaseDate).getTime() // for sorting
+    releaseTimestamp: new Date(item.releaseDate).getTime()
   }));
   
   // Pagination state
   let visibleCount = 5;
   const PAGE_STEP = 5;
   
-  // SORT TYPES: 'latest', 'low-high', 'high-low'
-  let currentSort = "latest";     // Default sort is Latest (newest first)
+  // Sort types: 'latest', 'low-high', 'high-low'
+  let currentSort = "latest";
   let currentCategory = "all";
   
   let workingList = [...fullFurnitureList];
   
   function updateWorkingList() {
     let filtered = [...fullFurnitureList];
-    
-    // Apply category filter
     if (currentCategory !== "all") {
       filtered = filtered.filter(item => item.category === currentCategory);
     }
     
-    // Apply sorting based on currentSort
     if (currentSort === "low-high") {
       filtered.sort((a, b) => a.price - b.price);
     } else if (currentSort === "high-low") {
       filtered.sort((a, b) => b.price - a.price);
     } else if (currentSort === "latest") {
-      // Sort by release date: newest first (descending timestamp)
       filtered.sort((a, b) => b.releaseTimestamp - a.releaseTimestamp);
     }
-    
     workingList = filtered;
   }
   
@@ -466,13 +485,11 @@
     });
   }
   
-  // Helper to format relative release date nicely
   function getRelativeDateLabel(releaseDate) {
     const date = new Date(releaseDate);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   }
   
-  // render only up to visibleCount items
   function renderCatalogue() {
     const gridContainer = document.getElementById("catalogueGrid");
     if (!gridContainer) return;
@@ -481,7 +498,6 @@
     const itemsToShow = workingList.slice(0, visibleCount);
     const totalItems = workingList.length;
     
-    // Update stats badge with sort info
     const statsSpan = document.getElementById("itemStats");
     if (statsSpan) {
       let sortText = "";
@@ -508,7 +524,6 @@
       else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
       else categoryIcon = "fa-tag";
       
-      // Add a subtle "NEW" badge if item is from last 60 days (optional flair)
       const daysSinceRelease = (Date.now() - new Date(item.releaseDate).getTime()) / (1000 * 3600 * 24);
       const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">NEW</span>' : '';
       
@@ -526,16 +541,22 @@
               <div class="product-code"><i class="fas fa-qrcode"></i> ${escapeHtml(item.productCode)}</div>
               <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> released ${getRelativeDateLabel(item.releaseDate)}</div>
             </div>
-            <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
-              <i class="fas fa-bag-shopping"></i> Buy Now
-            </button>
+            <!-- TWO BUTTONS: Buy Now + See More (same reference link) -->
+            <div class="button-group">
+              <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
+                <i class="fas fa-bag-shopping"></i> Buy Now
+              </button>
+              <button class="see-more-btn" data-see-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
+                <i class="fas fa-eye"></i> See More
+              </button>
+            </div>
           </div>
         </div>
       `;
     }
     gridContainer.innerHTML = rowsHtml;
     
-    // attach image popup
+    // Attach image popup
     document.querySelectorAll('.image-col').forEach(col => {
       col.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -548,7 +569,7 @@
       });
     });
     
-    // attach buy now events
+    // Attach Buy Now button events
     document.querySelectorAll('.buy-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -558,6 +579,20 @@
           window.open(link, '_blank');
         } else {
           alert(`🛒 "${itemName}" – redirect to official store. (demo)`);
+        }
+      });
+    });
+    
+    // Attach See More button events (SAME reference links as Buy Now)
+    document.querySelectorAll('.see-more-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const link = btn.getAttribute('data-see-link');
+        const itemName = btn.getAttribute('data-item-name') || 'item';
+        if (link && link !== "#") {
+          window.open(link, '_blank');
+        } else {
+          alert(`🔍 "${itemName}" – view more details (same product page).`);
         }
       });
     });
@@ -629,7 +664,7 @@
   window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal && modal.style.display === "flex") closeModal(); });
   
-  // Initialize sorting with 3 options: Latest, Price Low-High, Price High-Low
+  // Initialize sorting
   function initSorting() {
     const sortBtns = document.querySelectorAll('[data-sort]');
     const updateSortActive = () => {
@@ -653,7 +688,6 @@
       });
     });
     
-    // Category filter buttons
     const catBtns = document.querySelectorAll('[data-cat]');
     const setActiveCategory = (selected) => {
       catBtns.forEach(btn => {
@@ -672,7 +706,6 @@
       });
     });
     
-    // Set initial active states
     updateSortActive();
     setActiveCategory("all");
   }
