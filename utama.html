@@ -1,11 +1,9 @@
-Here is the enhanced furniture catalogue with a unique product code for each item, displayed in the second column as requested.
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>Pocket Catalogue | Product Code Edition</title>
+  <title>JatiMurahMalaysia.com | Katalog Terkini</title>
   <!-- Google Fonts & icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -261,6 +259,10 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
       padding: 1rem;
       border-top: 1px solid #EDE3DB;
       margin-top: 0.5rem;
+      display: none;
+    }
+    .end-message.show {
+      display: block;
     }
 
     /* modal popup */
@@ -341,16 +343,17 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
 
 <div class="catalogue-header">
   <h2>📋 pocket<br>catalogue</h2>
-  <p>2 columns · tap image to zoom · unique product codes</p>
+  <p>2 columns · tap image to zoom · sort by latest, price, or category</p>
   <div class="stats-badge" id="itemStats">Loading items...</div>
 </div>
 
 <!-- sorting panel -->
 <div class="sort-section">
-  <div class="sort-label"><i class="fas fa-chart-line"></i> price</div>
+  <div class="sort-label"><i class="fas fa-chart-line"></i> sort by</div>
   <div class="filter-group" id="priceSortGroup">
-    <button class="sort-chip" data-price="low-high"><i class="fas fa-arrow-up-wide-short"></i> Lowest</button>
-    <button class="sort-chip" data-price="high-low"><i class="fas fa-arrow-down-wide-short"></i> Highest</button>
+    <button class="sort-chip" data-sort="latest"><i class="fas fa-clock"></i> Latest</button>
+    <button class="sort-chip" data-sort="low-high"><i class="fas fa-arrow-up-wide-short"></i> Price: Low → High</button>
+    <button class="sort-chip" data-sort="high-low"><i class="fas fa-arrow-down-wide-short"></i> Price: High → Low</button>
   </div>
   <div class="divider"></div>
   <div class="sort-label"><i class="fas fa-tag"></i> category</div>
@@ -371,7 +374,7 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
 <div class="load-more-container" id="loadMoreContainer">
   <button class="load-more-btn" id="loadMoreBtn"><i class="fas fa-arrow-down"></i> Load More (5 more)</button>
 </div>
-<div id="endMessage" class="end-message" style="display: none;">✨ You've reached the end of our collection ✨</div>
+<div id="endMessage" class="end-message">✨ You've reached the end of our collection ✨</div>
 
 <!-- Modal for popup image -->
 <div id="imageModal" class="modal">
@@ -382,11 +385,7 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
 </div>
 
 <script>
-  // ---------- EXPANDED FURNITURE DATABASE (14 items) with release timestamp ----------
-  // For each product we generate a productCode based on release timestamp:
-  // Format: YYYY/MMDD/HH/MM/SS  (year/month-day/hour/minute/second)
-  // To make each item unique and realistic, we define a releaseDate for each piece.
-  
+  // ---------- FURNITURE DATABASE with release timestamps (latest sort uses this) ----------
   const furnitureRaw = [
     { id: 1, name: "Aether Oak Table", category: "table", typeLabel: "Table", price: 499, description: "Solid oak wood, Scandinavian design, seats 6 comfortably.", image: "https://images.pexels.com/photos/1049492/pexels-photo-1049492.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.ikea.com/", releaseDate: "2024-03-15T09:30:00" },
     { id: 2, name: "Lumina Armchair", category: "chair", typeLabel: "Chair", price: 289, description: "Velvet upholstery, walnut legs, perfect reading nook.", image: "https://images.pexels.com/photos/1254089/pexels-photo-1254089.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.wayfair.com/", releaseDate: "2024-05-22T14:45:22" },
@@ -404,8 +403,7 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
     { id: 14, name: "Aura Desk Lamp", category: "lighting", typeLabel: "Lighting", price: 89, description: "USB rechargeable, stepless dimming, modern silhouette.", image: "https://images.pexels.com/photos/2905058/pexels-photo-2905058.jpeg?auto=compress&cs=tinysrgb&w=600", buyLink: "https://www.bestbuy.com/", releaseDate: "2025-03-01T09:22:19" }
   ];
   
-  // Helper: generate product code from ISO date string.
-  // Format: YYYYMMDDHHMMSS (year, month, day, hour, minute, second)
+  // Generate product code from release date
   function generateProductCode(isoDateString) {
     const date = new Date(isoDateString);
     const year = date.getFullYear();
@@ -420,29 +418,38 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
   // Augment each item with productCode
   const fullFurnitureList = furnitureRaw.map(item => ({
     ...item,
-    productCode: generateProductCode(item.releaseDate)
+    productCode: generateProductCode(item.releaseDate),
+    releaseTimestamp: new Date(item.releaseDate).getTime() // for sorting
   }));
   
-  // Pagination state: show 5 items initially (exactly 5 rows)
+  // Pagination state
   let visibleCount = 5;
   const PAGE_STEP = 5;
   
-  // filter & sort state
-  let currentPriceSort = "low-high";
+  // SORT TYPES: 'latest', 'low-high', 'high-low'
+  let currentSort = "latest";     // Default sort is Latest (newest first)
   let currentCategory = "all";
   
   let workingList = [...fullFurnitureList];
   
   function updateWorkingList() {
     let filtered = [...fullFurnitureList];
+    
+    // Apply category filter
     if (currentCategory !== "all") {
       filtered = filtered.filter(item => item.category === currentCategory);
     }
-    if (currentPriceSort === "low-high") {
+    
+    // Apply sorting based on currentSort
+    if (currentSort === "low-high") {
       filtered.sort((a, b) => a.price - b.price);
-    } else {
+    } else if (currentSort === "high-low") {
       filtered.sort((a, b) => b.price - a.price);
+    } else if (currentSort === "latest") {
+      // Sort by release date: newest first (descending timestamp)
+      filtered.sort((a, b) => b.releaseTimestamp - a.releaseTimestamp);
     }
+    
     workingList = filtered;
   }
   
@@ -459,6 +466,12 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
     });
   }
   
+  // Helper to format relative release date nicely
+  function getRelativeDateLabel(releaseDate) {
+    const date = new Date(releaseDate);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+  
   // render only up to visibleCount items
   function renderCatalogue() {
     const gridContainer = document.getElementById("catalogueGrid");
@@ -468,15 +481,20 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
     const itemsToShow = workingList.slice(0, visibleCount);
     const totalItems = workingList.length;
     
+    // Update stats badge with sort info
     const statsSpan = document.getElementById("itemStats");
     if (statsSpan) {
-      statsSpan.innerHTML = `<i class="fas fa-chair"></i> Showing ${itemsToShow.length} of ${totalItems} items | code = YYYYMMDD-HHMMSS`;
+      let sortText = "";
+      if (currentSort === "latest") sortText = "📅 Latest first";
+      else if (currentSort === "low-high") sortText = "💰 Price ↑";
+      else sortText = "💰 Price ↓";
+      statsSpan.innerHTML = `<i class="fas fa-chair"></i> ${itemsToShow.length} of ${totalItems} items · ${sortText}`;
     }
     
     if (itemsToShow.length === 0) {
       gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; background:#F9F5EF; border-radius:40px;">✨ No furniture match this category. Try another filter.</div>`;
       document.getElementById("loadMoreContainer").classList.add("hidden");
-      document.getElementById("endMessage").style.display = "none";
+      document.getElementById("endMessage").classList.remove("show");
       return;
     }
     
@@ -490,6 +508,10 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
       else if (item.category === "lighting") categoryIcon = "fa-lightbulb";
       else categoryIcon = "fa-tag";
       
+      // Add a subtle "NEW" badge if item is from last 60 days (optional flair)
+      const daysSinceRelease = (Date.now() - new Date(item.releaseDate).getTime()) / (1000 * 3600 * 24);
+      const newBadge = daysSinceRelease < 60 ? ' <span style="background:#B47C48; color:white; font-size:0.55rem; padding:0.1rem 0.5rem; border-radius:20px; margin-left:6px;">NEW</span>' : '';
+      
       rowsHtml += `
         <div class="furniture-row" data-id="${item.id}">
           <div class="image-col" data-img="${item.image}" data-name="${item.name}">
@@ -498,11 +520,11 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
           <div class="details-col">
             <div>
               <span class="item-type"><i class="fas ${categoryIcon}"></i> ${item.typeLabel}</span>
-              <div class="item-name">${escapeHtml(item.name)}</div>
+              <div class="item-name">${escapeHtml(item.name)}${newBadge}</div>
               <div class="item-price">${formatPrice(item.price)}</div>
               <div class="item-desc">${escapeHtml(item.description)}</div>
-              <!-- Product code (release timestamp) smaller font inside second column -->
               <div class="product-code"><i class="fas fa-qrcode"></i> ${escapeHtml(item.productCode)}</div>
+              <div style="font-size:0.55rem; color:#B8A996; margin-top:-0.3rem; margin-bottom:0.3rem;"><i class="fas fa-calendar-alt"></i> released ${getRelativeDateLabel(item.releaseDate)}</div>
             </div>
             <button class="buy-btn" data-buy-link="${item.buyLink}" data-item-name="${escapeHtml(item.name)}">
               <i class="fas fa-bag-shopping"></i> Buy Now
@@ -540,17 +562,20 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
       });
     });
     
-    // handle load more visibility
+    // Handle load more button visibility
     const loadMoreContainer = document.getElementById("loadMoreContainer");
-    const endMsgDiv = document.getElementById("endMessage");
+    const endMessageDiv = document.getElementById("endMessage");
     
     if (visibleCount >= totalItems) {
       loadMoreContainer.classList.add("hidden");
-      if (totalItems > 0) endMsgDiv.style.display = "block";
-      else endMsgDiv.style.display = "none";
+      if (totalItems > 0) {
+        endMessageDiv.classList.add("show");
+      } else {
+        endMessageDiv.classList.remove("show");
+      }
     } else {
       loadMoreContainer.classList.remove("hidden");
-      endMsgDiv.style.display = "none";
+      endMessageDiv.classList.remove("show");
       const remaining = totalItems - visibleCount;
       const loadBtn = document.getElementById("loadMoreBtn");
       if (loadBtn) {
@@ -569,6 +594,11 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
         const lastRow = document.querySelector('.furniture-row:last-child');
         if (lastRow) lastRow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
+    } else {
+      const loadMoreContainer = document.getElementById("loadMoreContainer");
+      const endMessageDiv = document.getElementById("endMessage");
+      loadMoreContainer.classList.add("hidden");
+      endMessageDiv.classList.add("show");
     }
   }
   
@@ -599,30 +629,31 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
   window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && modal && modal.style.display === "flex") closeModal(); });
   
-  // Sorting initialization
+  // Initialize sorting with 3 options: Latest, Price Low-High, Price High-Low
   function initSorting() {
-    const priceLowBtn = document.querySelector('[data-price="low-high"]');
-    const priceHighBtn = document.querySelector('[data-price="high-low"]');
-    const updatePriceActive = () => {
-      if (currentPriceSort === "low-high") {
-        priceLowBtn.classList.add("active");
-        priceHighBtn.classList.remove("active");
-      } else {
-        priceHighBtn.classList.add("active");
-        priceLowBtn.classList.remove("active");
-      }
+    const sortBtns = document.querySelectorAll('[data-sort]');
+    const updateSortActive = () => {
+      sortBtns.forEach(btn => {
+        if (btn.getAttribute('data-sort') === currentSort) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
     };
-    if (priceLowBtn) priceLowBtn.addEventListener("click", () => {
-      currentPriceSort = "low-high";
-      updatePriceActive();
-      resetAndRender();
-    });
-    if (priceHighBtn) priceHighBtn.addEventListener("click", () => {
-      currentPriceSort = "high-low";
-      updatePriceActive();
-      resetAndRender();
+    
+    sortBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const sortValue = btn.getAttribute("data-sort");
+        if (sortValue && (sortValue === "latest" || sortValue === "low-high" || sortValue === "high-low")) {
+          currentSort = sortValue;
+          updateSortActive();
+          resetAndRender();
+        }
+      });
     });
     
+    // Category filter buttons
     const catBtns = document.querySelectorAll('[data-cat]');
     const setActiveCategory = (selected) => {
       catBtns.forEach(btn => {
@@ -640,8 +671,10 @@ Here is the enhanced furniture catalogue with a unique product code for each ite
         }
       });
     });
+    
+    // Set initial active states
+    updateSortActive();
     setActiveCategory("all");
-    updatePriceActive();
   }
   
   document.getElementById("loadMoreBtn")?.addEventListener("click", loadMoreItems);
